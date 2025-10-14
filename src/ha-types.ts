@@ -32,7 +32,12 @@ export interface LovelaceBadge extends HTMLElement {
 
 export interface HomeAssistant {
   connection: Connection;
-  states: Record<string, { state: string; attributes: Record<string, any> }>;
+  states: Record<string, {
+    state: string;
+    attributes: Record<string, any>;
+    last_changed?: string;
+    last_updated?: string;
+  }>;
   user?: { name: string };
   // Optional methods available in HA runtime
   formatEntityState?: (stateObj: any, state?: string) => string;

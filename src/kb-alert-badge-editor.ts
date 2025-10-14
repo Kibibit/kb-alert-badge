@@ -53,6 +53,37 @@ const SCHEMA: Schema = [
       icon: {},
     },
   },
+  // Display toggles
+  { name: "show_icon", selector: { boolean: {} } },
+  { name: "show_name", selector: { boolean: {} } },
+  { name: "show_state", selector: { boolean: {} } },
+  // State content selection
+  {
+    name: "state_content",
+    selector: {
+      select: {
+        options: [
+          { value: "state", label: "State" },
+          { value: "name", label: "Name" },
+          { value: "last_changed", label: "Last changed" },
+          { value: "last_updated", label: "Last updated" },
+          { value: "attribute", label: "Attribute" },
+          { value: "text", label: "Text" },
+        ],
+        mode: "dropdown",
+      },
+    },
+  },
+  {
+    name: "state_attribute",
+    selector: { text: {} },
+    conditions: [{ name: "state_content", value: "attribute" }],
+  },
+  {
+    name: "state_text",
+    selector: { text: {} },
+    conditions: [{ name: "state_content", value: "text" }],
+  },
   {
     name: "speed",
     selector: {
@@ -101,6 +132,18 @@ export class KbAlertBadgeEditor extends LitElement {
         return "Icon";
       case "label":
         return "Label";
+      case "show_icon":
+        return "Show icon";
+      case "show_name":
+        return "Show name";
+      case "show_state":
+        return "Show state";
+      case "state_content":
+        return "State content";
+      case "state_attribute":
+        return "Attribute name";
+      case "state_text":
+        return "Text";
       case "speed":
         return "Speed (ms)";
       case "demo":

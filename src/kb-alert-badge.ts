@@ -21,6 +21,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       animation: "flashing",
       color: "red",
       speed: 1000,
+      show_icon: true,
+      show_name: true,
+      show_state: true,
+      state_content: "state",
     };
   }
 
@@ -49,6 +53,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     this._config = {
       animation: "flashing",
       speed: 1000,
+      show_icon: true,
+      show_name: true,
+      show_state: true,
+      state_content: "state",
       ...config,
     };
   }
@@ -195,6 +203,38 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       ? this.hass?.states[this._config.entity]
       : undefined;
 
+    // Resolve visibility toggles
+    const showIcon = this._config.show_icon !== false;
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
+
+    // Determine name/label line
+    const friendlyName = entityStateObj?.attributes?.friendly_name as string | undefined;
+    const nameText = showName ? (label || friendlyName) : undefined;
+
+    // Determine state/content line
+    let contentText: string | undefined;
+    if (showState) {
+      const mode = this._config.state_content || "state";
+      if (mode === "state") {
+        contentText = this._stateDisplay;
+      } else if (mode === "name") {
+        contentText = label || friendlyName;
+      } else if (mode === "last_changed") {
+        const lc = entityStateObj?.last_changed;
+        if (lc) contentText = new Date(lc).toLocaleString();
+      } else if (mode === "last_updated") {
+        const lu = entityStateObj?.last_updated;
+        if (lu) contentText = new Date(lu).toLocaleString();
+      } else if (mode === "attribute") {
+        const attr = this._config.state_attribute;
+        const val = attr ? entityStateObj?.attributes?.[attr] : undefined;
+        if (val !== undefined) contentText = typeof val === "object" ? JSON.stringify(val) : String(val);
+      } else if (mode === "text") {
+        contentText = this._config.state_text || "";
+      }
+    }
+
     return html`
       <div class=${`badge ${active ? `active ${animation}` : animation === "washing-machine" ? animation : ""}`}
            style=${Object.entries(style)
@@ -230,20 +270,22 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
                 <div class="kb-wash-spinner"></div>
               </div>
             </div>`
-          : icon
-          ? html`<ha-state-icon
-              .hass=${this.hass}
-              .icon=${icon}
-              .stateObj=${entityStateObj}
-            ></ha-state-icon>`
-          : html`<ha-state-icon
-              .hass=${this.hass}
-              .stateObj=${entityStateObj}
-            ></ha-state-icon>`}
-        ${(label || this._stateDisplay)
+          : showIcon
+          ? (icon
+            ? html`<ha-state-icon
+                .hass=${this.hass}
+                .icon=${icon}
+                .stateObj=${entityStateObj}
+              ></ha-state-icon>`
+            : html`<ha-state-icon
+                .hass=${this.hass}
+                .stateObj=${entityStateObj}
+              ></ha-state-icon>`)
+          : nothing}
+        ${(nameText || contentText)
           ? html`<span class="info">
-              ${label ? html`<span class="label">${label}</span>` : nothing}
-              ${this._stateDisplay ? html`<span class="content">${this._stateDisplay}</span>` : nothing}
+              ${nameText ? html`<span class="label">${nameText}</span>` : nothing}
+              ${contentText ? html`<span class="content">${contentText}</span>` : nothing}
             </span>`
           : nothing}
       </div>
