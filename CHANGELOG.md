@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/kibibit/kb-alert-badge/compare/v1.2.12...v1.3.0) (2025-10-14)
+
+
+### Features
+
+* **animations:** better water animation ([fa18894](https://github.com/kibibit/kb-alert-badge/commit/fa18894fe538240d2b1c4b1459978809e3c95b97))
+
 ## [1.2.12](https://github.com/kibibit/kb-alert-badge/compare/v1.2.11...v1.2.12) (2025-10-14)
 
 
