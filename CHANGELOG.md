@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/kibibit/kb-alert-badge/compare/v1.1.0...v1.2.0) (2025-10-14)
+
+
+### Features
+
+* **demo-mode:** demo mode + icon empty by default ([8ae9554](https://github.com/kibibit/kb-alert-badge/commit/8ae9554bc2894e29532cc366e2df25a358b94ed3))
+
 # [1.1.0](https://github.com/kibibit/kb-alert-badge/compare/v1.0.0...v1.1.0) (2025-10-14)
 
 
