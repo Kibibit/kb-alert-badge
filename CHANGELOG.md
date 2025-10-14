@@ -1,3 +1,15 @@
+# [1.13.0](https://github.com/kibibit/kb-alert-badge/compare/v1.12.0...v1.13.0) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** revert last change ([29cd783](https://github.com/kibibit/kb-alert-badge/commit/29cd7837477e8fad920173e40adb7fdd6f6d372b))
+
+
+### Features
+
+* **badge:** add 'shake' animation option to alert badge ([bf0ff5f](https://github.com/kibibit/kb-alert-badge/commit/bf0ff5f7fe9726fa1fd4fc8c6d4bc2e54a331234))
+
 # [1.12.0](https://github.com/kibibit/kb-alert-badge/compare/v1.11.4...v1.12.0) (2025-10-14)
 
 
