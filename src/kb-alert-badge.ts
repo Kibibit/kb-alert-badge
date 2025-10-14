@@ -81,11 +81,11 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
              .join(";")}
            role="img"
            aria-label="Alert badge">
-        ${active
-          ? html`<ha-state-icon .hass=${this.hass} .icon=${icon || (entityStateObj as any)?.attributes?.icon}></ha-state-icon>`
-          : icon
-            ? html`<ha-state-icon .hass=${this.hass} .icon=${icon}></ha-state-icon>`
-            : html`<ha-state-icon .hass=${this.hass} .stateObj=${entityStateObj}></ha-state-icon>`}
+        ${html`<ha-state-icon
+          .hass=${this.hass}
+          .icon=${icon}
+          .stateObj=${entityStateObj}
+        ></ha-state-icon>`}
         ${(label || this._stateDisplay)
           ? html`<span class="info">
               ${label ? html`<span class="label">${label}</span>` : nothing}
