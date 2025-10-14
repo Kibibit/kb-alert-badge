@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/kibibit/kb-alert-badge/compare/v1.2.1...v1.2.2) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** fix styling to align with default\mushroom ([462579b](https://github.com/kibibit/kb-alert-badge/commit/462579be36d22e514f6b417f81f7e5c56a6dd711))
+
 ## [1.2.1](https://github.com/kibibit/kb-alert-badge/compare/v1.2.0...v1.2.1) (2025-10-14)
 
 
