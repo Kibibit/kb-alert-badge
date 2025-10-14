@@ -1,3 +1,10 @@
+## [1.2.9](https://github.com/kibibit/kb-alert-badge/compare/v1.2.8...v1.2.9) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** improve badge icon handling and refine flashing animation ([f6266a7](https://github.com/kibibit/kb-alert-badge/commit/f6266a7ae675fdc5cca36558ded46e7ebf424f9d))
+
 ## [1.2.8](https://github.com/kibibit/kb-alert-badge/compare/v1.2.7...v1.2.8) (2025-10-14)
 
 
