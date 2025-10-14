@@ -291,6 +291,8 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         /* Animate outer glow on the badge itself so it's not clipped */
         animation: kb-flash-glow var(--kb-alert-speed) infinite ease-in-out;
         box-shadow: 0 0 3px color-mix(in oklab, var(--kb-alert-color) 60%, transparent);
+        /* Keep content above the animated background */
+        /* Icon color remains driven by --badge-color; leave as-is for now */
       }
       .badge.active.flashing::before {
         /* Animated background overlay inside the badge */
@@ -301,6 +303,16 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         background-color: color-mix(in oklab, var(--kb-alert-color) 55%, black);
         animation: kb-flash-bg var(--kb-alert-speed) infinite ease-in-out;
         pointer-events: none;
+        z-index: 0;
+      }
+      .badge.active.flashing ha-state-icon,
+      .badge.active.flashing .info {
+        position: relative;
+        z-index: 1;
+      }
+      .badge.active.flashing .label,
+      .badge.active.flashing .content {
+        color: #ffffff;
       }
       @keyframes kb-flash-glow {
         0%, 100% {
