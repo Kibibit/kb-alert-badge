@@ -1,3 +1,10 @@
+## [1.14.2](https://github.com/kibibit/kb-alert-badge/compare/v1.14.1...v1.14.2) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** update default configuration and fallback behavior for standalone rendering ([7560e2c](https://github.com/kibibit/kb-alert-badge/commit/7560e2c1570201ea195b0d32f9d81e061788e450))
+
 ## [1.14.1](https://github.com/kibibit/kb-alert-badge/compare/v1.14.0...v1.14.1) (2025-10-14)
 
 
