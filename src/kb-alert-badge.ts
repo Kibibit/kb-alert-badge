@@ -216,7 +216,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         z-index: 0; /* base water background */
         border-bottom-left-radius: inherit;
         border-bottom-right-radius: inherit;
-        background: var(--kb-alert-color);
+        background: transparent;
         animation: kb-water-wave-rise calc(var(--kb-alert-speed) * 3) ease-out forwards;
       }
       .badge.active.water .kb-water-wave {
