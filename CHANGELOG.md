@@ -1,3 +1,10 @@
+## [1.11.2](https://github.com/kibibit/kb-alert-badge/compare/v1.11.1...v1.11.2) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** refine washing-machine animation ([39aa0aa](https://github.com/kibibit/kb-alert-badge/commit/39aa0aae000d59b426ed3dbd0bc2835d2aa36f4a))
+
 ## [1.11.1](https://github.com/kibibit/kb-alert-badge/compare/v1.11.0...v1.11.1) (2025-10-14)
 
 
