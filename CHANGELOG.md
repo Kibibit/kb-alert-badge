@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/kibibit/kb-alert-badge/compare/v1.10.0...v1.11.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** add washing-machine animation option ([f32a05f](https://github.com/kibibit/kb-alert-badge/commit/f32a05f523093cd647fad0ca4e4aca4d705a5f1c))
+
 # [1.10.0](https://github.com/kibibit/kb-alert-badge/compare/v1.9.1...v1.10.0) (2025-10-14)
 
 
