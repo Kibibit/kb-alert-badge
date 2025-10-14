@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/kibibit/kb-alert-badge/compare/v1.7.1...v1.8.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** add storm animation to alert badge with rain and lightning effects ([819112b](https://github.com/kibibit/kb-alert-badge/commit/819112bf99afc07b443047004bd1faf4d3a33bfb))
+
 ## [1.7.1](https://github.com/kibibit/kb-alert-badge/compare/v1.7.0...v1.7.1) (2025-10-14)
 
 
