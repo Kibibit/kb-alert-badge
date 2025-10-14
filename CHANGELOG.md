@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/kibibit/kb-alert-badge/compare/v1.4.6...v1.5.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** enhance police animation to alert badge with strobe effect ([0bd6157](https://github.com/kibibit/kb-alert-badge/commit/0bd6157d916952c15ac4da33456072f5e9b03374))
+
 ## [1.4.6](https://github.com/kibibit/kb-alert-badge/compare/v1.4.5...v1.4.6) (2025-10-14)
 
 
