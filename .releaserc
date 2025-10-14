@@ -4,7 +4,9 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     ["@semantic-release/changelog", { "changelogFile": "CHANGELOG.md" }],
-    "@semantic-release/npm",
+    ["@semantic-release/exec", {
+      "prepareCmd": "npm --no-git-tag-version version ${nextRelease.version} && npm run build"
+    }],
     ["@semantic-release/git", { "assets": ["CHANGELOG.md", "hacs.json", "package.json"], "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}" }],
     [
       "@semantic-release/github",
