@@ -1,3 +1,10 @@
+## [1.11.3](https://github.com/kibibit/kb-alert-badge/compare/v1.11.2...v1.11.3) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** adjust opacity for washing-machine animation ([12cc046](https://github.com/kibibit/kb-alert-badge/commit/12cc0469217aa869b8420b5bfc3c7a8a6fabe8f2))
+
 ## [1.11.2](https://github.com/kibibit/kb-alert-badge/compare/v1.11.1...v1.11.2) (2025-10-14)
 
 
