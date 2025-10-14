@@ -36,7 +36,7 @@ const SCHEMA: Schema = [
   {
     name: "color",
     selector: {
-      ui_color: {},
+      text: {},
     },
   },
   {

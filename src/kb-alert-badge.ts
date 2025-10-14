@@ -7,24 +7,6 @@ import { version } from "../package.json";
 
 type AnimationMode = NonNullable<KbAlertBadgeConfig["animation"]>;
 
-function computeCssColor(input?: string): string | undefined {
-  if (!input) return undefined;
-  const value = String(input).trim();
-  if (!value) return undefined;
-  // If already a css color/var, pass-through
-  if (value.startsWith("#") || value.startsWith("rgb") || value.startsWith("hsl") || value.startsWith("var(")) {
-    return value;
-  }
-  const token = value.toLowerCase().replace(/\s+/g, "-");
-  const specialMap: Record<string, string> = {
-    "primary-text": "rgb(var(--rgb-primary-text-color))",
-    "secondary-text": "rgb(var(--rgb-secondary-text-color))",
-    "disabled-text": "rgb(var(--rgb-disabled-text-color))",
-  };
-  if (specialMap[token]) return specialMap[token];
-  return `rgb(var(--rgb-${token}))`;
-}
-
 @customElement("kb-alert-badge")
 export class KbAlertBadge extends LitElement implements LovelaceBadge {
   public static async getConfigElement() {
@@ -85,7 +67,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     const active = this._config.demo || this._active || !this._config.entity; // preview if no entity or demo
 
     const style: Record<string, string> = {};
-    if (color) style["--kb-alert-color"] = computeCssColor(color)!;
+    if (color) style["--kb-alert-color"] = color;
     style["--kb-alert-speed"] = `${speed}ms`;
 
     const entityStateObj = this._config.entity
@@ -217,9 +199,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         background: radial-gradient(ellipse at top, rgba(255,255,255,0.4), transparent),
                     var(--kb-alert-color);
         animation: kb-water-rise var(--kb-alert-speed) infinite ease-in-out;
-        /* Ensure overlay is visible inside editor preview where parent may have stacking contexts */
-        z-index: 1;
-        pointer-events: none;
+        z-index: -1;
       }
       @keyframes kb-water-rise {
         0% { height: 0%; }
@@ -237,8 +217,6 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         box-shadow: 30px 8px 0 0 var(--kb-alert-color), 60px -8px 0 0 var(--kb-alert-color);
         opacity: 0.8;
         animation: kb-wind var(--kb-alert-speed) infinite linear;
-        z-index: 1;
-        pointer-events: none;
       }
       @keyframes kb-wind {
         0% { transform: translateX(0); }
