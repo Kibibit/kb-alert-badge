@@ -447,7 +447,6 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         justify-content: center;
         gap: 8px;
         height: var(--ha-badge-size, 36px);
-        min-width: var(--ha-badge-size, 36px);
         padding: 0 8px;
         width: auto;
         border-radius: var(
