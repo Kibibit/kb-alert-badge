@@ -24,6 +24,7 @@ export default [
       format: "es",
       inlineDynamicImports: true,
       entryFileNames: "kb-alert-badge.js",
+      sourcemap: true,
     },
     plugins,
   },
