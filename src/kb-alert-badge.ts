@@ -184,10 +184,6 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     if (animation === "storm") {
       style["--kb-storm-color"] = color || "#ffffff";
     }
-    // Washing machine: pass color through a dedicated variable so parts can shade from it
-    if (animation === "washing-machine" && color) {
-      style["--kb-wash-color"] = color;
-    }
 
     if (animation === "police") {
       const { right, left } = this._computePoliceColors(color);
@@ -663,13 +659,6 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
 
       /* washing-machine */
-      .badge.washing-machine {
-        /* derive washer palette from configured color (or fallback to badge color) */
-        --kb-wash-base: var(--kb-wash-color, var(--badge-color));
-        --kb-wash-dark: color-mix(in oklab, var(--kb-wash-base) 35%, black);
-        --kb-wash-darker: color-mix(in oklab, var(--kb-wash-base) 60%, black);
-        --kb-wash-arm: color-mix(in oklab, var(--kb-wash-base) 55%, black);
-      }
       .badge.washing-machine .kb-wash {
         position: relative;
         width: var(--mdc-icon-size, 18px);
@@ -683,9 +672,9 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        background: var(--kb-wash-dark); /* outer ring */
-        box-shadow: inset 0 0 0 calc(var(--kb-wash-size) * 0.08) var(--kb-wash-dark),
-                    inset 0 0 0 calc(var(--kb-wash-size) * 0.14) var(--kb-wash-darker);
+        background: #434343; /* outer ring */
+        box-shadow: inset 0 0 0 calc(var(--kb-wash-size) * 0.08) #434343,
+                    inset 0 0 0 calc(var(--kb-wash-size) * 0.14) #2f2f2f;
         transform-style: preserve-3d;
         perspective: 150px;
       }
@@ -720,7 +709,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         /* radius equals half of inner glass */
         width: calc(var(--mdc-icon-size, 18px) * 0.31);
         height: var(--arm-h);
-        background: var(--kb-wash-arm);
+        background: #331e27;
         border-radius: 25%;
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
@@ -736,7 +725,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         top: 0;
         width: 100%;
         height: 100%;
-        background: var(--kb-wash-arm);
+        background: #331e27;
         border-radius: 25%;
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
