@@ -1,5 +1,6 @@
 ## KB Alert Badge
 
+
 Animated Lovelace badge to draw attention to critical alerts (smoke, water leaks, alarms).
 
 - Type: `custom:kb-alert-badge`
