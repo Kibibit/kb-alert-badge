@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/kibibit/kb-alert-badge/compare/v1.9.0...v1.9.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** improve storm animation visuals with thicker drops and brighter streaks ([3e9338c](https://github.com/kibibit/kb-alert-badge/commit/3e9338cc844cc0774f85632c429d78c8bf4d5e36))
+
 # [1.9.0](https://github.com/kibibit/kb-alert-badge/compare/v1.8.1...v1.9.0) (2025-10-14)
 
 
