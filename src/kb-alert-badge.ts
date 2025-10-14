@@ -81,6 +81,12 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
              .join(";")}
            role="img"
            aria-label="Alert badge">
+        ${active && animation === "police"
+          ? html`<div class="kb-police" aria-hidden="true">
+              <div class="segment red"><div class="inner"></div></div>
+              <div class="segment blue"><div class="inner"></div></div>
+            </div>`
+          : nothing}
         ${active && animation === "water"
           ? html`<div class="kb-water" aria-hidden="true">
               <svg class="kb-water-wave w1" viewBox="0 0 120 20" preserveAspectRatio="none" focusable="false" aria-hidden="true">
@@ -194,15 +200,59 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         50% { box-shadow: inset 0 0 0 6px transparent; }
       }
 
-      /* police */
-      .badge.active.police {
-        background: linear-gradient(90deg, #e53935 0%, #e53935 50%, #1e88e5 50%, #1e88e5 100%);
-        background-size: 200% 100%;
-        animation: kb-police var(--kb-alert-speed) infinite linear;
+      /* police - Sequence 1 */
+      .badge.active.police { overflow: hidden; }
+      .badge.active.police .kb-police {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        pointer-events: none;
+        z-index: 1;
       }
-      @keyframes kb-police {
-        0% { background-position: 0% 0; }
-        100% { background-position: -100% 0; }
+      .badge.active.police .segment {
+        position: relative;
+        overflow: hidden;
+      }
+      .badge.active.police .segment .inner {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+      }
+      /* Blue (right) timing - three quick bursts per cycle */
+      .badge.active.police .segment.blue .inner {
+        animation: kb-strobe-blue var(--kb-alert-speed) infinite;
+      }
+      /* Red (left) is delayed half cycle to alternate with blue */
+      .badge.active.police .segment.red .inner {
+        animation: kb-strobe-red var(--kb-alert-speed) infinite;
+        animation-delay: calc(var(--kb-alert-speed) / 2);
+      }
+      /* Content stays above overlays */
+      .badge.active.police ha-state-icon,
+      .badge.active.police .info {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Strobe keyframes (based on CodePen sequence 1) */
+      @keyframes kb-strobe-blue {
+        0%, 25%    { opacity: 0; box-shadow: none; background: transparent; }
+        28%, 50%   { opacity: 1; background: rgba(102,210,255,0.55); box-shadow: 0 0 40px 10px rgba(0,120,255,0.8) inset, 0 0 24px rgba(0,120,255,0.9); }
+        52%, 55%   { opacity: 0; box-shadow: none; background: transparent; }
+        57%, 69%   { opacity: 1; background: rgba(102,210,255,0.55); box-shadow: 0 0 40px 10px rgba(0,120,255,0.8) inset, 0 0 24px rgba(0,120,255,0.9); }
+        70%, 71%   { opacity: 0; box-shadow: none; background: transparent; }
+        72%, 75%   { opacity: 1; background: rgba(102,210,255,0.55); box-shadow: 0 0 40px 10px rgba(0,120,255,0.8) inset, 0 0 24px rgba(0,120,255,0.9); }
+        77%, 100%  { opacity: 0; box-shadow: none; background: transparent; }
+      }
+      @keyframes kb-strobe-red {
+        0%, 25%    { opacity: 0; box-shadow: none; background: transparent; }
+        28%, 50%   { opacity: 1; background: rgba(255,60,45,0.55); box-shadow: 0 0 40px 10px rgba(255,68,68,0.8) inset, 0 0 24px rgba(255,68,68,0.9); }
+        52%, 55%   { opacity: 0; box-shadow: none; background: transparent; }
+        57%, 69%   { opacity: 1; background: rgba(255,60,45,0.55); box-shadow: 0 0 40px 10px rgba(255,68,68,0.8) inset, 0 0 24px rgba(255,68,68,0.9); }
+        70%, 71%   { opacity: 0; box-shadow: none; background: transparent; }
+        72%, 75%   { opacity: 1; background: rgba(255,60,45,0.55); box-shadow: 0 0 40px 10px rgba(255,68,68,0.8) inset, 0 0 24px rgba(255,68,68,0.9); }
+        77%, 100%  { opacity: 0; box-shadow: none; background: transparent; }
       }
 
       /* water */
