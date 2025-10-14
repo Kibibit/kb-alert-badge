@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/kibibit/kb-alert-badge/compare/v1.8.0...v1.8.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** remove 'wind' animation option and associated styles from alert badge ([0534a96](https://github.com/kibibit/kb-alert-badge/commit/0534a9673f70efcdc8df1662c70c230b9e578336))
+
 # [1.8.0](https://github.com/kibibit/kb-alert-badge/compare/v1.7.1...v1.8.0) (2025-10-14)
 
 
