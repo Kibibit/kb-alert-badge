@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/kibibit/kb-alert-badge/compare/v1.9.1...v1.10.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** enhance storm animation color handling and improve canvas management ([e1d834e](https://github.com/kibibit/kb-alert-badge/commit/e1d834eb13eb00e5c85a5d6d7b929a31e9e26a83))
+
 ## [1.9.1](https://github.com/kibibit/kb-alert-badge/compare/v1.9.0...v1.9.1) (2025-10-14)
 
 
