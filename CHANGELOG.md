@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/kibibit/kb-alert-badge/compare/v1.6.0...v1.7.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** enhance flashing animation with outer glow and background overlay ([ca3d45a](https://github.com/kibibit/kb-alert-badge/commit/ca3d45a9422986d0c4edb08d8815ff7bd52041da))
+
 # [1.6.0](https://github.com/kibibit/kb-alert-badge/compare/v1.5.0...v1.6.0) (2025-10-14)
 
 
