@@ -1,3 +1,11 @@
+## [1.14.1](https://github.com/kibibit/kb-alert-badge/compare/v1.14.0...v1.14.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** remove min-width property to support round badge ([de43126](https://github.com/kibibit/kb-alert-badge/commit/de4312689893e13175c7515f895dce3da626d2a0))
+* **badge:** show only relevant input fields in editor ([38c8992](https://github.com/kibibit/kb-alert-badge/commit/38c8992b5db3ef613c8be8696b75cb2af886e364))
+
 # [1.14.0](https://github.com/kibibit/kb-alert-badge/compare/v1.13.1...v1.14.0) (2025-10-14)
 
 
