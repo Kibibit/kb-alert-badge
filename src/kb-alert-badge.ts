@@ -217,7 +217,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         border-bottom-left-radius: inherit;
         border-bottom-right-radius: inherit;
         background: var(--kb-alert-color);
-        animation: kb-water-wave-rise calc(var(--kb-alert-speed) * 5) ease-out forwards;
+        animation: kb-water-wave-rise calc(var(--kb-alert-speed) * 3) ease-out forwards;
       }
       .badge.active.water .kb-water-wave {
         position: absolute;
@@ -227,17 +227,18 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         height: 24px;
         overflow: visible;
       }
-      .badge.active.water .kb-water-wave path {
-        fill: color-mix(in oklab, var(--kb-alert-color) 60%, white);
-      }
+      .badge.active.water .kb-water-wave path { fill: var(--kb-alert-color); }
       .badge.active.water .kb-water-wave.w1 {
-        opacity: 0.7;
-        animation: kb-water-wave-shift 6000ms linear infinite;
+        z-index: 1;
+        animation: kb-water-wave-shift calc(var(--kb-alert-speed) * 3) linear infinite;
       }
       .badge.active.water .kb-water-wave.w2 {
-        opacity: 0.45;
+        z-index: 0;
         top: -6px; /* phase shift */
-        animation: kb-water-wave-shift 9000ms linear infinite reverse;
+        animation: kb-water-wave-shift calc(var(--kb-alert-speed) * 4.5) linear infinite reverse;
+      }
+      .badge.active.water .kb-water-wave.w2 path {
+        fill: color-mix(in oklab, var(--kb-alert-color) 70%, black);
       }
       .badge.active.water ha-state-icon,
       .badge.active.water .info { position: relative; z-index: 2; }
