@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/kibibit/kb-alert-badge/compare/v1.7.0...v1.7.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* **readme:** force release ([793f3e6](https://github.com/kibibit/kb-alert-badge/commit/793f3e67864e40d22afd2e2d5cbdb1d7e4d97aa4))
+
 # [1.7.0](https://github.com/kibibit/kb-alert-badge/compare/v1.6.0...v1.7.0) (2025-10-14)
 
 
