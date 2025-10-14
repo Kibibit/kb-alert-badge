@@ -1,3 +1,10 @@
+## [1.2.11](https://github.com/kibibit/kb-alert-badge/compare/v1.2.10...v1.2.11) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** fix icon disappearing in active state ([f98285b](https://github.com/kibibit/kb-alert-badge/commit/f98285b87ec9f610142f525f9aef6ed0f669e0cf))
+
 ## [1.2.10](https://github.com/kibibit/kb-alert-badge/compare/v1.2.9...v1.2.10) (2025-10-14)
 
 
