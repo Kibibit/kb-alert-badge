@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/kibibit/kb-alert-badge/compare/v1.4.3...v1.4.4) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** fix waves upside down ([3d4787c](https://github.com/kibibit/kb-alert-badge/commit/3d4787c33a5b1ba4584135128149313e9455d59f))
+
 ## [1.4.3](https://github.com/kibibit/kb-alert-badge/compare/v1.4.2...v1.4.3) (2025-10-14)
 
 
