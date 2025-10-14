@@ -1,0 +1,2 @@
+# commitlint (no deprecated husky header)
+npx --no-install commitlint --edit "$1"
