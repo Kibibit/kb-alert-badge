@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/kibibit/kb-alert-badge/compare/v1.2.0...v1.2.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* **state:** fix icon colors and entity state string ([9dfb8aa](https://github.com/kibibit/kb-alert-badge/commit/9dfb8aac11b67f1e26ddc03a4c218cf51844bd4c))
+
 # [1.2.0](https://github.com/kibibit/kb-alert-badge/compare/v1.1.0...v1.2.0) (2025-10-14)
 
 
