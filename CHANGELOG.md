@@ -1,3 +1,11 @@
+## [1.2.6](https://github.com/kibibit/kb-alert-badge/compare/v1.2.5...v1.2.6) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** update inactive state color and add package.json to release assets ([d2c8b5f](https://github.com/kibibit/kb-alert-badge/commit/d2c8b5fd445f5583c6b15081a6ea7acf08cb9f7a))
+* **release:** update release configuration ([2056682](https://github.com/kibibit/kb-alert-badge/commit/2056682dd30aeb228e9a182218ad9e0c559b7863))
+
 ## [1.2.5](https://github.com/kibibit/kb-alert-badge/compare/v1.2.4...v1.2.5) (2025-10-14)
 
 
