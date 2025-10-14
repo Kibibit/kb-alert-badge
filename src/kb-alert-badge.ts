@@ -82,7 +82,14 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
            role="img"
            aria-label="Alert badge">
         ${active && animation === "water"
-          ? html`<div class="kb-water" aria-hidden="true"></div>`
+          ? html`<div class="kb-water" aria-hidden="true">
+              <svg class="kb-water-wave w1" viewBox="0 0 120 20" preserveAspectRatio="none" focusable="false" aria-hidden="true">
+                <path d="M0 10 Q 15 0 30 10 T 60 10 T 90 10 T 120 10 V 20 H 0 Z"></path>
+              </svg>
+              <svg class="kb-water-wave w2" viewBox="0 0 120 20" preserveAspectRatio="none" focusable="false" aria-hidden="true">
+                <path d="M0 10 Q 15 0 30 10 T 60 10 T 90 10 T 120 10 V 20 H 0 Z"></path>
+              </svg>
+            </div>`
           : nothing}
         ${icon
           ? html`<ha-state-icon
@@ -199,36 +206,44 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
 
       /* water */
-      .badge.active.water {
-        overflow: hidden;
-      }
+      .badge.active.water { overflow: hidden; }
       .badge.active.water .kb-water {
         position: absolute;
-        left: -50%;
+        left: 0;
         top: 60%;
-        width: 200%;
-        height: 200%;
+        width: 100%;
+        height: 140%;
         z-index: 0;
-        border-radius: 38%;
-        background:
-          radial-gradient(ellipse at 50% 40%,
-            color-mix(in oklab, var(--kb-alert-color) 35%, white) 0%,
-            transparent 66%),
-          var(--kb-alert-color);
-        transform: rotate(0deg);
-        transform-origin: 50% 50%;
-        animation:
-          kb-water-wave-rotate calc(var(--kb-alert-speed) * 3) linear infinite,
-          kb-water-wave-rise   calc(var(--kb-alert-speed) * 5) ease-out forwards;
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+        background: var(--kb-alert-color);
+        animation: kb-water-wave-rise calc(var(--kb-alert-speed) * 5) ease-out forwards;
+      }
+      .badge.active.water .kb-water-wave {
+        position: absolute;
+        left: 0;
+        top: -10px; /* slightly above to create a crest */
+        width: 200%;
+        height: 24px;
+        overflow: visible;
+      }
+      .badge.active.water .kb-water-wave path {
+        fill: color-mix(in oklab, var(--kb-alert-color) 60%, white);
+      }
+      .badge.active.water .kb-water-wave.w1 {
+        opacity: 0.7;
+        animation: kb-water-wave-shift 6000ms linear infinite;
+      }
+      .badge.active.water .kb-water-wave.w2 {
+        opacity: 0.45;
+        top: -6px; /* phase shift */
+        animation: kb-water-wave-shift 9000ms linear infinite reverse;
       }
       .badge.active.water ha-state-icon,
-      .badge.active.water .info {
-        position: relative;
-        z-index: 2;
-      }
-      @keyframes kb-water-wave-rotate {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+      .badge.active.water .info { position: relative; z-index: 2; }
+      @keyframes kb-water-wave-shift {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
       }
       @keyframes kb-water-wave-rise {
         0% { top: 60%; }
