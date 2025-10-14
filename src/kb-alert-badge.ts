@@ -99,9 +99,11 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
              .join(";")}
            role="img"
            aria-label="Alert badge">
-        ${icon
-          ? html`<ha-state-icon .hass=${this.hass} .icon=${icon}></ha-state-icon>`
-          : html`<ha-state-icon .hass=${this.hass} .stateObj=${entityStateObj}></ha-state-icon>`}
+        ${active
+          ? html`<ha-state-icon .hass=${this.hass} .icon=${icon || (entityStateObj as any)?.attributes?.icon}></ha-state-icon>`
+          : icon
+            ? html`<ha-state-icon .hass=${this.hass} .icon=${icon}></ha-state-icon>`
+            : html`<ha-state-icon .hass=${this.hass} .stateObj=${entityStateObj}></ha-state-icon>`}
         ${(label || this._stateDisplay)
           ? html`<span class="info">
               ${label ? html`<span class="label">${label}</span>` : nothing}
@@ -180,14 +182,19 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         letter-spacing: 0.1px;
       }
 
-      /* flashing */
-      .badge.active.flashing {
+      /* flashing - render pulse inside element to avoid preview clipping */
+      .badge.active.flashing::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        box-shadow: inset 0 0 0 0 color-mix(in oklab, var(--kb-alert-color) 40%, transparent);
         animation: kb-flash var(--kb-alert-speed) infinite ease-in-out;
-        box-shadow: 0 0 0 0 color-mix(in oklab, var(--kb-alert-color) 40%, transparent);
+        pointer-events: none;
       }
       @keyframes kb-flash {
-        0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--kb-alert-color) 40%, transparent); }
-        50% { box-shadow: 0 0 0 8px transparent; }
+        0%, 100% { box-shadow: inset 0 0 0 0 color-mix(in oklab, var(--kb-alert-color) 40%, transparent); }
+        50% { box-shadow: inset 0 0 0 6px transparent; }
       }
 
       /* police */
@@ -211,7 +218,8 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
                     var(--kb-alert-color);
         animation: kb-water-rise var(--kb-alert-speed) infinite ease-in-out;
         /* Ensure overlay is visible inside editor preview where parent may have stacking contexts */
-        z-index: 0;
+        z-index: 1;
+        pointer-events: none;
       }
       @keyframes kb-water-rise {
         0% { height: 0%; }
@@ -229,7 +237,8 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         box-shadow: 30px 8px 0 0 var(--kb-alert-color), 60px -8px 0 0 var(--kb-alert-color);
         opacity: 0.8;
         animation: kb-wind var(--kb-alert-speed) infinite linear;
-        z-index: 0;
+        z-index: 1;
+        pointer-events: none;
       }
       @keyframes kb-wind {
         0% { transform: translateX(0); }
