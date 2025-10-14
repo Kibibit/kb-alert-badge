@@ -222,7 +222,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       .badge.active.water .kb-water-wave {
         position: absolute;
         left: 0;
-        top: 6px; /* crest below water surface for realism */
+        top: -8px; /* crest sits above water surface */
         width: 200%;
         height: 24px;
         overflow: visible;
@@ -234,7 +234,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
       .badge.active.water .kb-water-wave.w2 {
         z-index: 0;
-        top: 10px; /* phase shift and slightly lower */
+        top: -5px; /* phase shift, slightly lower than w1 */
         animation: kb-water-wave-shift calc(var(--kb-alert-speed) * 4.5) linear infinite reverse;
       }
       .badge.active.water .kb-water-wave.w2 path {
