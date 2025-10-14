@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/kibibit/kb-alert-badge/compare/v1.3.0...v1.4.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** enhance water animation with SVG waves ([032cf97](https://github.com/kibibit/kb-alert-badge/commit/032cf971ec7819cc935d65790c1687fd1a43b965))
+
 # [1.3.0](https://github.com/kibibit/kb-alert-badge/compare/v1.2.12...v1.3.0) (2025-10-14)
 
 
