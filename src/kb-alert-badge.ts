@@ -684,6 +684,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         position: absolute;
         left: 50%;
         top: 50%;
+        opacity: 0.5;
         width: calc(var(--kb-wash-size) * 0.62);
         height: calc(var(--kb-wash-size) * 0.62);
         transform: translate(-50%, -50%) rotateY(55deg);
