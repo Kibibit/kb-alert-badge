@@ -109,11 +109,17 @@ export class KbAlertBadgeEditor extends LitElement {
 
   protected render() {
     if (!this.hass || !this._config) return nothing;
+    const selected = this._config.state_content;
+    const schema = SCHEMA.filter((s: any) => {
+      if (s.name === "state_attribute") return selected === "attribute";
+      if (s.name === "state_text") return selected === "text";
+      return true;
+    });
     return html`
       <ha-form
         .hass=${this.hass}
         .data=${this._config}
-        .schema=${SCHEMA}
+        .schema=${schema}
         .computeLabel=${this._computeLabel}
         @value-changed=${this._valueChanged}
       ></ha-form>
