@@ -132,13 +132,14 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
       .badge ha-state-icon {
         --mdc-icon-size: 18px;
+        color: var(--badge-color);
       }
-      .badge.active ha-state-icon {
-        color: var(--kb-alert-color);
+      /* Drive icon color the same way as core badges */
+      .badge.active {
+        --badge-color: var(--kb-alert-color);
       }
-      /* Inactive: match Mushroom disabled icon color */
-      .badge:not(.active) ha-state-icon {
-        color: var(--kb-icon-color-disabled);
+      .badge:not(.active) {
+        --badge-color: var(--state-inactive-color);
       }
       .info {
         display: flex;
