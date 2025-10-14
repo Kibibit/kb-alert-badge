@@ -18,7 +18,7 @@ Animated Lovelace badge to draw attention to critical alerts (smoke, water leaks
 ```yaml
 type: custom:kb-alert-badge
 entity: binary_sensor.smoke_alarm
-animation: police # flashing | police | water | storm
+animation: police # flashing | police | water | storm | washing-machine
 color: red
 icon: mdi:smoke-detector
 speed: 900
@@ -26,7 +26,7 @@ speed: 900
 
 ### Options
 - `entity`: Entity to monitor
-- `animation`: One of `flashing`, `police`, `water`, `storm`
+- `animation`: One of `flashing`, `police`, `water`, `storm`, `washing-machine`
 - `color`: Any CSS color
 - `icon`: MDI icon or Jinja2 template
 - `speed`: Animation speed in ms
@@ -38,5 +38,12 @@ Includes visual editor with entity, animation, color, icon and speed controls.
 - Combines angled rain (canvas) and periodic lightning flashes.
 - Lightning timing inspired by the provided CodePen sequence.
 - Rain is angled to suggest wind. Density auto-scales to badge size.
+
+
+### Washing-machine animation
+- Replaces the icon with a compact washer drum and spinner.
+- Inactive state: door appears slightly open (rotateY effect).
+- Active state: door closes briefly, then drum spins and the badge shakes horizontally.
+- Honors `speed` for spin/shake cadence and adapts to the badge icon size.
 
 

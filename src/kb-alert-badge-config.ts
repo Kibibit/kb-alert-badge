@@ -1,7 +1,7 @@
 export type KbAlertBadgeConfig = {
   type: string;
   entity?: string;
-  animation?: "flashing" | "police" | "water" | "storm";
+  animation?: "flashing" | "police" | "water" | "storm" | "washing-machine";
   color?: string;
   icon?: string;
   label?: string;

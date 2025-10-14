@@ -224,7 +224,13 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
               <div class="kb-storm-lightning"></div>
             </div>`
           : nothing}
-        ${icon
+        ${animation === "washing-machine"
+          ? html`<div class="kb-wash" aria-hidden="true">
+              <div class="kb-wash-drum">
+                <div class="kb-wash-spinner"></div>
+              </div>
+            </div>`
+          : icon
           ? html`<ha-state-icon
               .hass=${this.hass}
               .icon=${icon}
@@ -650,6 +656,99 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         77.5% { opacity: 0; background: transparent; }
         80% { opacity: 0.75; background: var(--kb-storm-flash-dim); }
         90%, 100% { opacity: 0; background: transparent; }
+      }
+
+      /* washing-machine */
+      .badge.washing-machine .kb-wash {
+        position: relative;
+        width: var(--mdc-icon-size, 18px);
+        height: var(--mdc-icon-size, 18px);
+        flex: 0 0 auto;
+      }
+      .badge.washing-machine .kb-wash-drum {
+        --kb-wash-size: var(--mdc-icon-size, 18px);
+        --kb-wash-door-duration: 250ms;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: #434343; /* outer ring */
+        box-shadow: inset 0 0 0 calc(var(--kb-wash-size) * 0.08) #434343,
+                    inset 0 0 0 calc(var(--kb-wash-size) * 0.14) #2f2f2f;
+        transform-style: preserve-3d;
+      }
+      /* inner glass/door */
+      .badge.washing-machine .kb-wash-drum::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: calc(var(--kb-wash-size) * 0.62);
+        height: calc(var(--kb-wash-size) * 0.62);
+        transform: translate(-50%, -50%) rotateY(45deg);
+        transform-origin: center center;
+        border-radius: 50%;
+        background: #77757b; /* glass */
+        box-shadow: inset 0 0 0 calc(var(--kb-wash-size) * 0.02) #999;
+      }
+      .badge.active.washing-machine .kb-wash-drum::after {
+        animation: kb-wash-door-close var(--kb-wash-door-duration) ease-out forwards;
+      }
+      @keyframes kb-wash-door-close {
+        0% { transform: translate(-50%, -50%) rotateY(45deg); }
+        100% { transform: translate(-50%, -50%) rotateY(0deg); }
+      }
+      .badge.washing-machine .kb-wash-spinner {
+        --arm-h: calc(var(--mdc-icon-size, 18px) * 0.12);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: calc(var(--mdc-icon-size, 18px) * 0.3);
+        height: var(--arm-h);
+        background: #331e27;
+        border-radius: 25%;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        transform-origin: center left;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+      }
+      .badge.washing-machine .kb-wash-spinner::before,
+      .badge.washing-machine .kb-wash-spinner::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: #331e27;
+        border-radius: 25%;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        transform-origin: center left;
+      }
+      .badge.washing-machine .kb-wash-spinner::before { transform: rotate(120deg); }
+      .badge.washing-machine .kb-wash-spinner::after { transform: rotate(240deg); }
+      .badge.active.washing-machine .kb-wash-spinner {
+        animation: kb-wash-rotation calc(var(--kb-alert-speed) * 0.8) linear infinite;
+        animation-delay: var(--kb-wash-door-duration);
+      }
+      @keyframes kb-wash-rotation {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        25% { transform: translate(-50%, -50%) rotate(90deg); }
+        50% { transform: translate(-50%, -50%) rotate(180deg); }
+        75% { transform: translate(-50%, -50%) rotate(270deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+      .badge.active.washing-machine {
+        animation: kb-wash-shake calc(var(--kb-alert-speed)) cubic-bezier(.36,.07,.19,.97) both infinite;
+        animation-delay: var(--kb-wash-door-duration);
+      }
+      @keyframes kb-wash-shake {
+        10%, 90% { transform: translate3d(-1px, 0, 0); }
+        20%, 80% { transform: translate3d(2px, 0, 0); }
+        30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+        40%, 60% { transform: translate3d(4px, 0, 0); }
       }
     `;
   }
