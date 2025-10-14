@@ -702,7 +702,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         100% { transform: translate(-50%, -50%) rotateY(0deg); }
       }
       .badge.washing-machine .kb-wash-spinner {
-        --arm-h: calc(var(--mdc-icon-size, 18px) * 0.12);
+        --arm-h: calc(var(--mdc-icon-size, 18px) * 0.06);
         position: absolute;
         left: 50%;
         top: 50%;
