@@ -84,10 +84,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         ${active && animation === "water"
           ? html`<div class="kb-water" aria-hidden="true">
               <svg class="kb-water-wave w1" viewBox="0 0 120 20" preserveAspectRatio="none" focusable="false" aria-hidden="true">
-                <path d="M0 10 Q 15 0 30 10 T 60 10 T 90 10 T 120 10 V 20 H 0 Z"></path>
+                <path d="M0 10 Q 15 0 30 10 T 60 10 T 90 10 T 120 10 L 120 0 L 0 0 Z"></path>
               </svg>
               <svg class="kb-water-wave w2" viewBox="0 0 120 20" preserveAspectRatio="none" focusable="false" aria-hidden="true">
-                <path d="M0 10 Q 15 0 30 10 T 60 10 T 90 10 T 120 10 V 20 H 0 Z"></path>
+                <path d="M0 10 Q 15 0 30 10 T 60 10 T 90 10 T 120 10 L 120 0 L 0 0 Z"></path>
               </svg>
             </div>`
           : nothing}
@@ -222,7 +222,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       .badge.active.water .kb-water-wave {
         position: absolute;
         left: 0;
-        top: -10px; /* slightly above to create a crest */
+        top: 6px; /* crest below water surface for realism */
         width: 200%;
         height: 24px;
         overflow: visible;
@@ -234,7 +234,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
       .badge.active.water .kb-water-wave.w2 {
         z-index: 0;
-        top: -6px; /* phase shift */
+        top: 10px; /* phase shift and slightly lower */
         animation: kb-water-wave-shift calc(var(--kb-alert-speed) * 4.5) linear infinite reverse;
       }
       .badge.active.water .kb-water-wave.w2 path {
@@ -248,7 +248,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
       @keyframes kb-water-wave-rise {
         0% { top: 60%; }
-        100% { top: 8px; }
+        100% { top: calc(var(--ha-badge-size, 36px) * 0.45); }
       }
 
       /* wind */
