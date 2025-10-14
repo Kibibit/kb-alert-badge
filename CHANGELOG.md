@@ -1,3 +1,10 @@
+## [1.14.3](https://github.com/kibibit/kb-alert-badge/compare/v1.14.2...v1.14.3) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** move demo in editor to the top ([5ad8c89](https://github.com/kibibit/kb-alert-badge/commit/5ad8c89dce02abebc76e6f6fe36af809e820de67))
+
 ## [1.14.2](https://github.com/kibibit/kb-alert-badge/compare/v1.14.1...v1.14.2) (2025-10-14)
 
 
