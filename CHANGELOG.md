@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/kibibit/kb-alert-badge/compare/v1.11.0...v1.11.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** adjust transform origin and refine washing-machine animation keyframes ([eaf73b4](https://github.com/kibibit/kb-alert-badge/commit/eaf73b4b55d450c50bec21f7381fe910311c5d81))
+
 # [1.11.0](https://github.com/kibibit/kb-alert-badge/compare/v1.10.0...v1.11.0) (2025-10-14)
 
 
