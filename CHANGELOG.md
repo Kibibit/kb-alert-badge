@@ -1,3 +1,10 @@
+## [1.11.4](https://github.com/kibibit/kb-alert-badge/compare/v1.11.3...v1.11.4) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** adjust washing-machine arm height for improved animation ([b8705a9](https://github.com/kibibit/kb-alert-badge/commit/b8705a99e1a9287966e55bb2e5fd0bc2e95ee4db))
+
 ## [1.11.3](https://github.com/kibibit/kb-alert-badge/compare/v1.11.2...v1.11.3) (2025-10-14)
 
 
