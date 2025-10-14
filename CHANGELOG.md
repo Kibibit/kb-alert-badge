@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/kibibit/kb-alert-badge/compare/v1.4.1...v1.4.2) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** refine water wave SVG paths and adjust animation positions for realism ([86fedef](https://github.com/kibibit/kb-alert-badge/commit/86fedeff7775eb9d0a881ab67dc53d8f2a54b17f))
+
 ## [1.4.1](https://github.com/kibibit/kb-alert-badge/compare/v1.4.0...v1.4.1) (2025-10-14)
 
 
