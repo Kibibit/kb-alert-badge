@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/kibibit/kb-alert-badge/compare/v1.2.3...v1.2.4) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** update inactive state color and add console badge registration ([c13ac76](https://github.com/kibibit/kb-alert-badge/commit/c13ac76734cdc9ea47963b40a3f2c13a1fc6533c))
+
 ## [1.2.3](https://github.com/kibibit/kb-alert-badge/compare/v1.2.2...v1.2.3) (2025-10-14)
 
 
