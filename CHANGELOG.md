@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/kibibit/kb-alert-badge/compare/v1.8.1...v1.9.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** enhance storm animation with customizable color options and improved opacity effects ([f4c7d84](https://github.com/kibibit/kb-alert-badge/commit/f4c7d8441eaa073e836174fa1e6994d2c161aaa9))
+
 ## [1.8.1](https://github.com/kibibit/kb-alert-badge/compare/v1.8.0...v1.8.1) (2025-10-14)
 
 
