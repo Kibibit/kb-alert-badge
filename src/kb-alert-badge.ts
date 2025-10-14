@@ -19,7 +19,6 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       entity: "binary_sensor.example",
       animation: "flashing",
       color: "red",
-      icon: "mdi:alert",
       speed: 1000,
     };
   }
@@ -61,7 +60,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
   protected render() {
     if (!this._config) return nothing;
     const { icon, label, color, animation = "flashing", speed = 1000 } = this._config;
-    const active = this._active || !this._config.entity; // preview if no entity
+    const active = this._config.demo || this._active || !this._config.entity; // preview if no entity or demo
 
     const style: Record<string, string> = {};
     if (color) style["--kb-alert-color"] = color;
@@ -106,14 +105,23 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         height: var(--ha-badge-size, 36px);
         min-width: var(--ha-badge-size, 36px);
         padding: 0 8px;
-        border-radius: 50%;
+        width: auto;
+        border-radius: var(
+          --ha-badge-border-radius,
+          calc(var(--ha-badge-size, 36px) / 2)
+        );
         background: var(--ha-card-background, var(--card-background-color));
         border: 1px solid var(--divider-color);
         overflow: hidden;
       }
       .badge ha-state-icon {
         --mdc-icon-size: 20px;
+      }
+      .badge.active ha-state-icon {
         color: var(--kb-alert-color);
+      }
+      .badge:not(.active) ha-state-icon {
+        color: var(--secondary-text-color);
       }
       .info {
         display: flex;

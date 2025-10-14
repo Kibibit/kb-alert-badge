@@ -57,6 +57,12 @@ const SCHEMA: Schema = [
       number: { min: 100, max: 10000, step: 100, mode: "box" },
     },
   },
+  {
+    name: "demo",
+    selector: {
+      boolean: {},
+    },
+  },
 ];
 
 @customElement("kb-alert-badge-editor")
@@ -95,6 +101,8 @@ export class KbAlertBadgeEditor extends LitElement {
         return "Label";
       case "speed":
         return "Speed (ms)";
+      case "demo":
+        return "Preview animation (demo)";
       default:
         return schema.name;
     }
