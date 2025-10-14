@@ -321,7 +321,8 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     return {
       x: Math.random() * w * 1.3, // allow offscreen spawn
       y: Math.random() * h,
-      width: random(0.8, 1.2),
+      // Make drops visually thicker
+      width: random(1.2, 1.8),
       length: random(2, 5),
       // Slightly brighter rain: higher opacity range
       opacity: random(0.25, 0.55),
@@ -349,6 +350,8 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
     }
     // Draw
+    const prevComposite = ctx.globalCompositeOperation;
+    ctx.globalCompositeOperation = "lighter"; // additive blend for brighter streaks
     for (let i = 0; i < this._stormDrops.length; i++) {
       const d = this._stormDrops[i];
       const startX = d.x;
@@ -368,6 +371,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       ctx.lineCap = "round";
       ctx.stroke();
     }
+    ctx.globalCompositeOperation = prevComposite;
   }
 
   static get styles(): CSSResultGroup {
@@ -594,7 +598,6 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         --kb-storm-flash-strong: var(--kb-alert-color);
         --kb-storm-flash: color-mix(in oklab, var(--kb-alert-color) 80%, black);
         --kb-storm-flash-dim: color-mix(in oklab, var(--kb-alert-color) 55%, black);
-        --kb-storm-ambient: color-mix(in oklab, var(--kb-alert-color) 14%, black);
       }
       .badge.active.storm .kb-storm {
         position: absolute;
@@ -602,12 +605,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         z-index: 0;
         pointer-events: none;
       }
-      .badge.active.storm .kb-storm::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: var(--kb-storm-ambient); /* tinted ambience between flashes */
-      }
+      /* No ambient dark overlay; preserve original badge background */
       .badge.active.storm .kb-storm-rain {
         position: absolute;
         inset: 0;
