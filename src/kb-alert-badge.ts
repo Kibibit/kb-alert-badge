@@ -658,6 +658,11 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         90%, 100% { opacity: 0; background: transparent; }
       }
 
+      /* shake */
+      .badge.active.shake {
+        animation: kb-wash-shake calc(var(--kb-alert-speed)) cubic-bezier(.36,.07,.19,.97) both infinite;
+      }
+
       /* washing-machine */
       .badge.washing-machine .kb-wash {
         position: relative;

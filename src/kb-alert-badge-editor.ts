@@ -28,6 +28,7 @@ const SCHEMA: Schema = [
           { value: "police", label: "Police" },
           { value: "water", label: "Water" },
           { value: "storm", label: "Storm" },
+          { value: "shake", label: "Shake" },
           { value: "washing-machine", label: "Washing machine" },
         ],
         mode: "dropdown",
