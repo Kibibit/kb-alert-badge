@@ -1,3 +1,10 @@
+## [1.2.12](https://github.com/kibibit/kb-alert-badge/compare/v1.2.11...v1.2.12) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** handle icon rendering based on presence of icon prop ([02035be](https://github.com/kibibit/kb-alert-badge/commit/02035be255461947ecaa33eba40ace2096eba86c))
+
 ## [1.2.11](https://github.com/kibibit/kb-alert-badge/compare/v1.2.10...v1.2.11) (2025-10-14)
 
 
