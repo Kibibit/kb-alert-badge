@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import type { HomeAssistant, LovelaceBadge } from "./ha-types";
 import { subscribeRenderTemplate } from "./ha-types";
 import type { KbAlertBadgeConfig } from "./kb-alert-badge-config";
+import { version } from "../package.json";
 
 type AnimationMode = NonNullable<KbAlertBadgeConfig["animation"]>;
 
@@ -98,6 +99,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       :host {
         --kb-alert-color: var(--error-color, #ff5252);
         --kb-alert-speed: 1000ms;
+        --kb-icon-color-disabled: rgb(var(--rgb-disabled));
       }
       .badge {
         position: relative;
@@ -134,7 +136,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       .badge.active ha-state-icon {
         color: var(--kb-alert-color);
       }
-      /* Inactive: do not override icon color; let ha-state-icon decide (matches Mushroom) */
+      /* Inactive: match Mushroom disabled icon color */
+      .badge:not(.active) ha-state-icon {
+        color: var(--kb-icon-color-disabled);
+      }
       .info {
         display: flex;
         flex-direction: column;
