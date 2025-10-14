@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/kibibit/kb-alert-badge/compare/v1.4.4...v1.4.5) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** water background should be transparent ([b7437d0](https://github.com/kibibit/kb-alert-badge/commit/b7437d05b1b8256cdb436c0bdb6147a89be25066))
+
 ## [1.4.4](https://github.com/kibibit/kb-alert-badge/compare/v1.4.3...v1.4.4) (2025-10-14)
 
 
