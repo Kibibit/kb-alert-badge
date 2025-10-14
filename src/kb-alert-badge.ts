@@ -43,6 +43,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     speedX: number;
     speedY: number;
   }> = [];
+  private _stormColor?: { r: number; g: number; b: number; a: number };
 
   setConfig(config: KbAlertBadgeConfig): void {
     this._config = {
@@ -258,6 +259,9 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     if (!this._stormRainCanvas) return;
     this._stormRainCtx = this._stormRainCanvas.getContext("2d");
     if (!this._stormRainCtx) return;
+    // Resolve base storm color from editor setting (lightest tone)
+    const baseColor = this._config?.color || "#ff5252";
+    this._stormColor = this._resolveCssColorToRgba(baseColor) || { r: 255, g: 82, b: 82, a: 1 };
     this._stormSetupCanvasAndDrops();
     // Resize handler
     this._stormResizeHandler = () => {
@@ -319,7 +323,8 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       y: Math.random() * h,
       width: random(0.8, 1.2),
       length: random(2, 5),
-      opacity: random(0.15, 0.35),
+      // Slightly brighter rain: higher opacity range
+      opacity: random(0.25, 0.55),
       speedX,
       speedY,
     };
@@ -351,8 +356,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       const endX = d.x + d.speedX * d.length;
       const endY = d.y + d.speedY * d.length;
       const grad = ctx.createLinearGradient(startX, startY, endX, endY);
-      grad.addColorStop(0, "rgba(255,255,255,0)");
-      grad.addColorStop(1, `rgba(255,255,255,${d.opacity.toFixed(3)})`);
+      // Use editor color as the lightest tone (end of the streak)
+      const base = this._stormColor || { r: 255, g: 255, b: 255, a: 1 };
+      grad.addColorStop(0, "rgba(0,0,0,0)");
+      grad.addColorStop(1, `rgba(${base.r}, ${base.g}, ${base.b}, ${d.opacity.toFixed(3)})`);
       ctx.beginPath();
       ctx.moveTo(startX, startY);
       ctx.lineTo(endX, endY);
@@ -582,6 +589,13 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
 
       /* storm */
       .badge.active.storm { overflow: hidden; }
+      .badge.active.storm {
+        /* derive shade palette from editor color */
+        --kb-storm-flash-strong: var(--kb-alert-color);
+        --kb-storm-flash: color-mix(in oklab, var(--kb-alert-color) 80%, black);
+        --kb-storm-flash-dim: color-mix(in oklab, var(--kb-alert-color) 55%, black);
+        --kb-storm-ambient: color-mix(in oklab, var(--kb-alert-color) 14%, black);
+      }
       .badge.active.storm .kb-storm {
         position: absolute;
         inset: 0;
@@ -592,7 +606,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         content: "";
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.35); /* dark ambience between flashes */
+        background: var(--kb-storm-ambient); /* tinted ambience between flashes */
       }
       .badge.active.storm .kb-storm-rain {
         position: absolute;
@@ -604,7 +618,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       .badge.active.storm .kb-storm-lightning {
         position: absolute;
         inset: 0;
-        background: #fff;
+        background: var(--kb-storm-flash-strong);
         opacity: 0;
         animation: kb-lightning 6000ms infinite;
         mix-blend-mode: screen;
@@ -615,15 +629,18 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         z-index: 2; /* above storm overlays */
       }
       @keyframes kb-lightning {
-        0%, 8% { opacity: 0; }
-        9.5% { opacity: 0.9; }
-        10% { opacity: 0; }
-        73% { opacity: 0; }
-        75% { opacity: 0.9; }
-        77% { opacity: 0; }
-        80% { opacity: 0.7; }
-        90% { opacity: 0; }
-        100% { opacity: 0; }
+        0%, 8% { opacity: 0; background: transparent; }
+        9.5% { opacity: 1; background: var(--kb-storm-flash-strong); }
+        9.8% { opacity: 0; background: transparent; }
+        10.2% { opacity: 0.9; background: var(--kb-storm-flash); }
+        10.6% { opacity: 0; background: transparent; }
+        73% { opacity: 0; background: transparent; }
+        75% { opacity: 1; background: var(--kb-storm-flash-strong); }
+        76.0% { opacity: 0; background: transparent; }
+        76.7% { opacity: 0.9; background: var(--kb-storm-flash); }
+        77.5% { opacity: 0; background: transparent; }
+        80% { opacity: 0.75; background: var(--kb-storm-flash-dim); }
+        90%, 100% { opacity: 0; background: transparent; }
       }
     `;
   }
