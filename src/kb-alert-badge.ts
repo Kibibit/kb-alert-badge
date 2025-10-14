@@ -676,6 +676,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         box-shadow: inset 0 0 0 calc(var(--kb-wash-size) * 0.08) #434343,
                     inset 0 0 0 calc(var(--kb-wash-size) * 0.14) #2f2f2f;
         transform-style: preserve-3d;
+        perspective: 150px;
       }
       /* inner glass/door */
       .badge.washing-machine .kb-wash-drum::after {
@@ -685,17 +686,18 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         top: 50%;
         width: calc(var(--kb-wash-size) * 0.62);
         height: calc(var(--kb-wash-size) * 0.62);
-        transform: translate(-50%, -50%) rotateY(45deg);
-        transform-origin: center center;
+        transform: translate(-50%, -50%) rotateY(55deg);
+        transform-origin: left center;
         border-radius: 50%;
         background: #77757b; /* glass */
         box-shadow: inset 0 0 0 calc(var(--kb-wash-size) * 0.02) #999;
+        z-index: 2; /* glass above spinner */
       }
       .badge.active.washing-machine .kb-wash-drum::after {
         animation: kb-wash-door-close var(--kb-wash-door-duration) ease-out forwards;
       }
       @keyframes kb-wash-door-close {
-        0% { transform: translate(-50%, -50%) rotateY(45deg); }
+        0% { transform: translate(-50%, -50%) rotateY(55deg); }
         100% { transform: translate(-50%, -50%) rotateY(0deg); }
       }
       .badge.washing-machine .kb-wash-spinner {
@@ -703,15 +705,16 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         position: absolute;
         left: 50%;
         top: 50%;
-        width: calc(var(--mdc-icon-size, 18px) * 0.3);
+        /* radius equals half of inner glass */
+        width: calc(var(--mdc-icon-size, 18px) * 0.31);
         height: var(--arm-h);
         background: #331e27;
         border-radius: 25%;
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
-        transform-origin: center center;
-        transform: translate(-50%, -50%);
-        z-index: 1;
+        transform-origin: left center;
+        transform: translateY(-50%);
+        z-index: 1; /* below glass */
       }
       .badge.washing-machine .kb-wash-spinner::before,
       .badge.washing-machine .kb-wash-spinner::after {
@@ -734,11 +737,11 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         animation-delay: var(--kb-wash-door-duration);
       }
       @keyframes kb-wash-rotation {
-        0% { transform: translate(-50%, -50%) rotate(0deg); }
-        25% { transform: translate(-50%, -50%) rotate(90deg); }
-        50% { transform: translate(-50%, -50%) rotate(180deg); }
-        75% { transform: translate(-50%, -50%) rotate(270deg); }
-        100% { transform: translate(-50%, -50%) rotate(360deg); }
+        0% { transform: translateY(-50%) rotate(0deg); }
+        25% { transform: translateY(-50%) rotate(90deg); }
+        50% { transform: translateY(-50%) rotate(180deg); }
+        75% { transform: translateY(-50%) rotate(270deg); }
+        100% { transform: translateY(-50%) rotate(360deg); }
       }
       .badge.active.washing-machine {
         animation: kb-wash-shake calc(var(--kb-alert-speed)) cubic-bezier(.36,.07,.19,.97) both infinite;
