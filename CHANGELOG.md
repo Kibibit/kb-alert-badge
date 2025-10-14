@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/kibibit/kb-alert-badge/compare/v1.13.1...v1.14.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** add display controls and state content options ([369fe54](https://github.com/kibibit/kb-alert-badge/commit/369fe54456794abaa6f725189d6fccb1e3256925))
+
 ## [1.13.1](https://github.com/kibibit/kb-alert-badge/compare/v1.13.0...v1.13.1) (2025-10-14)
 
 
