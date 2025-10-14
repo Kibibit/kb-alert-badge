@@ -17,14 +17,17 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
   public static async getStubConfig(): Promise<KbAlertBadgeConfig> {
     return {
       type: "custom:kb-alert-badge",
-      entity: "binary_sensor.example",
+      // No default entity so the preview can render standalone
       animation: "flashing",
       color: "red",
+      icon: "mdi:alarm-light",
+      label: "Alert",
       speed: 1000,
       show_icon: true,
       show_name: true,
       show_state: true,
-      state_content: "state",
+      state_content: "text",
+      state_text: "Active",
     };
   }
 
@@ -210,14 +213,15 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
 
     // Determine name/label line
     const friendlyName = entityStateObj?.attributes?.friendly_name as string | undefined;
-    const nameText = showName ? (label || friendlyName) : undefined;
+    const nameText = showName ? (label || friendlyName || (!entityStateObj ? "Alert" : undefined)) : undefined;
 
     // Determine state/content line
     let contentText: string | undefined;
     if (showState) {
       const mode = this._config.state_content || "state";
       if (mode === "state") {
-        contentText = this._stateDisplay;
+        // Fallback to a readable state when no entity is provided
+        contentText = this._stateDisplay ?? (!entityStateObj ? (this._config.state_text || "Active") : undefined);
       } else if (mode === "name") {
         contentText = label || friendlyName;
       } else if (mode === "last_changed") {
@@ -271,16 +275,11 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
               </div>
             </div>`
           : showIcon
-          ? (icon
-            ? html`<ha-state-icon
+          ? html`<ha-state-icon
                 .hass=${this.hass}
-                .icon=${icon}
+                .icon=${icon || (!entityStateObj ? "mdi:alarm-light" : undefined)}
                 .stateObj=${entityStateObj}
               ></ha-state-icon>`
-            : html`<ha-state-icon
-                .hass=${this.hass}
-                .stateObj=${entityStateObj}
-              ></ha-state-icon>`)
           : nothing}
         ${(nameText || contentText)
           ? html`<span class="info">
