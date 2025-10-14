@@ -578,21 +578,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         100% { top: calc(var(--ha-badge-size, 36px) * 0.45); }
       }
 
-      /* wind */
-      .badge.active.wind::before {
-        content: "";
-        position: absolute;
-        top: 10%; left: -50%;
-        width: 50%; height: 2px;
-        background: var(--kb-alert-color);
-        box-shadow: 30px 8px 0 0 var(--kb-alert-color), 60px -8px 0 0 var(--kb-alert-color);
-        opacity: 0.8;
-        animation: kb-wind var(--kb-alert-speed) infinite linear;
-      }
-      @keyframes kb-wind {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(200%); }
-      }
+      
 
       /* storm */
       .badge.active.storm { overflow: hidden; }
