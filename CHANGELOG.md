@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/kibibit/kb-alert-badge/compare/v1.5.0...v1.6.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** add customizable police colors and enhance strobe effect for alert badge ([8259b03](https://github.com/kibibit/kb-alert-badge/commit/8259b0310ea9cd3ba56c868afb7c8194dde9a01c))
+
 # [1.5.0](https://github.com/kibibit/kb-alert-badge/compare/v1.4.6...v1.5.0) (2025-10-14)
 
 
