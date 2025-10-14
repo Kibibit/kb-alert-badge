@@ -134,10 +134,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       .badge.active ha-state-icon {
         color: var(--kb-alert-color);
       }
-      .badge:not(.active) ha-state-icon {
-        color: var(--secondary-text-color);
-        filter: grayscale(1) opacity(0.9);
-      }
+      /* For inactive state, let ha-state-icon use theme defaults (no override) */
       .info {
         display: flex;
         flex-direction: column;
