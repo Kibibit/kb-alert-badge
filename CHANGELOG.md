@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/kibibit/kb-alert-badge/compare/v1.11.4...v1.12.0) (2025-10-14)
+
+
+### Features
+
+* **badge:** enhance washing-machine animation with dynamic color handling ([ad50d15](https://github.com/kibibit/kb-alert-badge/commit/ad50d15f981e313f5563365cf97bf4e4070eb978))
+
 ## [1.11.4](https://github.com/kibibit/kb-alert-badge/compare/v1.11.3...v1.11.4) (2025-10-14)
 
 
