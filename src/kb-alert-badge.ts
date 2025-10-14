@@ -286,19 +286,37 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         letter-spacing: 0.1px;
       }
 
-      /* flashing - render pulse inside element to avoid preview clipping */
-      .badge.active.flashing::after {
+      /* flashing - background pulse + outer glow (CodePen-inspired) */
+      .badge.active.flashing {
+        /* Animate outer glow on the badge itself so it's not clipped */
+        animation: kb-flash-glow var(--kb-alert-speed) infinite ease-in-out;
+        box-shadow: 0 0 3px color-mix(in oklab, var(--kb-alert-color) 60%, transparent);
+      }
+      .badge.active.flashing::before {
+        /* Animated background overlay inside the badge */
         content: "";
         position: absolute;
         inset: 0;
         border-radius: inherit;
-        box-shadow: inset 0 0 0 0 color-mix(in oklab, var(--kb-alert-color) 40%, transparent);
-        animation: kb-flash var(--kb-alert-speed) infinite ease-in-out;
+        background-color: color-mix(in oklab, var(--kb-alert-color) 55%, black);
+        animation: kb-flash-bg var(--kb-alert-speed) infinite ease-in-out;
         pointer-events: none;
       }
-      @keyframes kb-flash {
-        0%, 100% { box-shadow: inset 0 0 0 0 color-mix(in oklab, var(--kb-alert-color) 40%, transparent); }
-        50% { box-shadow: inset 0 0 0 6px transparent; }
+      @keyframes kb-flash-glow {
+        0%, 100% {
+          box-shadow: 0 0 3px color-mix(in oklab, var(--kb-alert-color) 60%, transparent);
+        }
+        50% {
+          box-shadow: 0 0 40px 6px color-mix(in oklab, var(--kb-alert-color) 90%, transparent);
+        }
+      }
+      @keyframes kb-flash-bg {
+        0%, 100% {
+          background-color: color-mix(in oklab, var(--kb-alert-color) 55%, black);
+        }
+        50% {
+          background-color: color-mix(in oklab, var(--kb-alert-color) 95%, black);
+        }
       }
 
       /* police - Sequence 1 */
