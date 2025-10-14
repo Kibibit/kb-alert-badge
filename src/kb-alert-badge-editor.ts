@@ -3,6 +3,62 @@ import { customElement, property, state } from "lit/decorators.js";
 import type { HomeAssistant } from "./ha-types";
 import type { KbAlertBadgeConfig } from "./kb-alert-badge-config";
 
+type Schema = any[]; // Rely on HA's <ha-form> schema at runtime
+
+const SCHEMA: Schema = [
+  {
+    name: "entity",
+    selector: {
+      entity: {
+        domain: [
+          "binary_sensor",
+          "sensor",
+          "alarm_control_panel",
+          "switch",
+        ],
+      },
+    },
+  },
+  {
+    name: "animation",
+    selector: {
+      select: {
+        options: [
+          { value: "flashing", label: "Flashing" },
+          { value: "police", label: "Police" },
+          { value: "water", label: "Water" },
+          { value: "wind", label: "Wind" },
+        ],
+        mode: "dropdown",
+      },
+    },
+  },
+  {
+    name: "color",
+    selector: {
+      text: {},
+    },
+  },
+  {
+    name: "label",
+    selector: {
+      text: {},
+    },
+  },
+  {
+    name: "icon",
+    selector: {
+      icon: {},
+    },
+  },
+  {
+    name: "speed",
+    selector: {
+      number: { min: 100, max: 10000, step: 100, mode: "box" },
+    },
+  },
+];
+
 @customElement("kb-alert-badge-editor")
 export class KbAlertBadgeEditor extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -14,64 +70,45 @@ export class KbAlertBadgeEditor extends LitElement {
 
   protected render() {
     if (!this.hass || !this._config) return nothing;
-    // Minimal schema-less editor to keep dependencies small
     return html`
-      <div class="form">
-        <label>
-          Entity
-          <input
-            type="text"
-            .value=${this._config.entity ?? ""}
-            @input=${(e: any) => this._update({ entity: e.target.value })}
-          />
-        </label>
-        <label>
-          Animation
-          <select
-            .value=${this._config.animation ?? "flashing"}
-            @change=${(e: any) => this._update({ animation: e.target.value })}
-          >
-            <option value="flashing">flashing</option>
-            <option value="police">police</option>
-            <option value="water">water</option>
-            <option value="wind">wind</option>
-          </select>
-        </label>
-        <label>
-          Color
-          <input
-            type="text"
-            placeholder="e.g. red or #ff0000"
-            .value=${this._config.color ?? ""}
-            @input=${(e: any) => this._update({ color: e.target.value })}
-          />
-        </label>
-        <label>
-          Icon
-          <input
-            type="text"
-            placeholder="mdi:alert"
-            .value=${this._config.icon ?? ""}
-            @input=${(e: any) => this._update({ icon: e.target.value })}
-          />
-        </label>
-        <label>
-          Speed (ms)
-          <input
-            type="number"
-            min="100"
-            step="100"
-            .value=${String(this._config.speed ?? 1000)}
-            @input=${(e: any) => this._update({ speed: Number(e.target.value) })}
-          />
-        </label>
-      </div>
+      <ha-form
+        .hass=${this.hass}
+        .data=${this._config}
+        .schema=${SCHEMA}
+        .computeLabel=${this._computeLabel}
+        @value-changed=${this._valueChanged}
+      ></ha-form>
     `;
   }
 
-  private _update(values: Partial<KbAlertBadgeConfig>) {
-    const detail = { config: { ...(this._config || {}), ...values } };
-    this.dispatchEvent(new CustomEvent("config-changed", { detail, bubbles: true, composed: true }));
+  private _computeLabel = (schema: any) => {
+    switch (schema.name) {
+      case "entity":
+        return "Entity";
+      case "animation":
+        return "Animation";
+      case "color":
+        return "Color";
+      case "icon":
+        return "Icon";
+      case "label":
+        return "Label";
+      case "speed":
+        return "Speed (ms)";
+      default:
+        return schema.name;
+    }
+  };
+
+  private _valueChanged(ev: CustomEvent) {
+    const cfg = ev.detail.value as KbAlertBadgeConfig;
+    this.dispatchEvent(
+      new CustomEvent("config-changed", {
+        detail: { config: cfg },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 }
 

@@ -27,6 +27,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
   @property({ attribute: false }) public hass?: HomeAssistant;
   @state() private _config?: KbAlertBadgeConfig;
   @state() private _active = false;
+  @state() private _stateDisplay?: string;
 
   setConfig(config: KbAlertBadgeConfig): void {
     this._config = {
@@ -43,22 +44,32 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
   private _computeActive() {
     if (!this.hass || !this._config?.entity) {
       this._active = false;
+      this._stateDisplay = undefined;
       return;
     }
     const st = this.hass.states[this._config.entity];
     const state = st?.state ?? "";
     const activeStates = ["on", "alarm", "problem", "triggered", "leak"];
     this._active = activeStates.includes(state);
+    if (st) {
+      this._stateDisplay = state;
+    } else {
+      this._stateDisplay = undefined;
+    }
   }
 
   protected render() {
     if (!this._config) return nothing;
-    const { icon, color, animation = "flashing", speed = 1000 } = this._config;
+    const { icon, label, color, animation = "flashing", speed = 1000 } = this._config;
     const active = this._active || !this._config.entity; // preview if no entity
 
     const style: Record<string, string> = {};
     if (color) style["--kb-alert-color"] = color;
     style["--kb-alert-speed"] = `${speed}ms`;
+
+    const entityStateObj = this._config.entity
+      ? this.hass?.states[this._config.entity]
+      : undefined;
 
     return html`
       <div class=${`badge ${active ? `active ${animation}` : ""}`}
@@ -67,7 +78,15 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
              .join(";")}
            role="img"
            aria-label="Alert badge">
-        <ha-state-icon .icon=${icon || "mdi:alert"}></ha-state-icon>
+        ${icon
+          ? html`<ha-state-icon .hass=${this.hass} .icon=${icon}></ha-state-icon>`
+          : html`<ha-state-icon .hass=${this.hass} .stateObj=${entityStateObj}></ha-state-icon>`}
+        ${(label || this._stateDisplay)
+          ? html`<span class="info">
+              ${label ? html`<span class="label">${label}</span>` : nothing}
+              ${this._stateDisplay ? html`<span class="content">${this._stateDisplay}</span>` : nothing}
+            </span>`
+          : nothing}
       </div>
     `;
   }
@@ -83,8 +102,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
         height: var(--ha-badge-size, 36px);
-        width: var(--ha-badge-size, 36px);
+        min-width: var(--ha-badge-size, 36px);
+        padding: 0 8px;
         border-radius: 50%;
         background: var(--ha-card-background, var(--card-background-color));
         border: 1px solid var(--divider-color);
@@ -93,6 +114,23 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       .badge ha-state-icon {
         --mdc-icon-size: 20px;
         color: var(--kb-alert-color);
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .label {
+        font-size: 10px;
+        font-weight: 500;
+        color: var(--secondary-text-color);
+        line-height: 10px;
+      }
+      .content {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--primary-text-color);
+        line-height: 16px;
       }
 
       /* flashing */
