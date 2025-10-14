@@ -51,7 +51,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     const activeStates = ["on", "alarm", "problem", "triggered", "leak"];
     this._active = activeStates.includes(state);
     if (st) {
-      this._stateDisplay = state;
+      // Prefer Home Assistant's localized formatting if available
+      this._stateDisplay = this.hass?.formatEntityState
+        ? this.hass.formatEntityState(st as any, state)
+        : state;
     } else {
       this._stateDisplay = undefined;
     }
@@ -111,7 +114,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
           calc(var(--ha-badge-size, 36px) / 2)
         );
         background: var(--ha-card-background, var(--card-background-color));
-        border: 1px solid var(--divider-color);
+        border: 1px solid var(--ha-card-border-color, var(--divider-color));
         overflow: hidden;
       }
       .badge ha-state-icon {
@@ -122,6 +125,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
       .badge:not(.active) ha-state-icon {
         color: var(--secondary-text-color);
+        filter: grayscale(1) opacity(0.9);
       }
       .info {
         display: flex;

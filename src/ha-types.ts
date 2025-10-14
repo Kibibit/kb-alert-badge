@@ -34,6 +34,8 @@ export interface HomeAssistant {
   connection: Connection;
   states: Record<string, { state: string; attributes: Record<string, any> }>;
   user?: { name: string };
+  // Optional methods available in HA runtime
+  formatEntityState?: (stateObj: any, state?: string) => string;
 }
 
 
