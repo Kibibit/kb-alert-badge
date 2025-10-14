@@ -134,7 +134,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       .badge.active ha-state-icon {
         color: var(--kb-alert-color);
       }
-      /* For inactive state, let ha-state-icon use theme defaults (no override) */
+      /* Inactive: align with Mushroom by using secondary text color */
+      .badge:not(.active) ha-state-icon {
+        color: var(--secondary-text-color);
+      }
       .info {
         display: flex;
         flex-direction: column;
@@ -229,6 +232,19 @@ declare global {
     description: "Animated alert badge for critical sensors",
     preview: true,
   });
+  // Console badge to confirm registration
+  try {
+    // eslint-disable-next-line no-console
+    console.log(
+      "%c KB %c Alert Badge %c registered",
+      "background:#673ab7;color:#fff;border-radius:3px 0 0 3px;padding:2px 6px;font-weight:600",
+      "background:#03a9f4;color:#fff;padding:2px 6px;font-weight:600",
+      "background:transparent;color:inherit;padding:2px 6px"
+    );
+  } catch (_e) {
+    // eslint-disable-next-line no-console
+    console.log("KB Alert Badge registered");
+  }
 })();
 
 
