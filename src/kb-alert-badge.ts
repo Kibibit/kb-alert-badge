@@ -18,8 +18,8 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     return {
       type: "custom:kb-alert-badge",
       // No default entity so the preview can render standalone
-      animation: "flashing",
-      color: "red",
+      animation: "storm",
+      color: "#04A9F4",
       icon: "mdi:alarm-light",
       label: "Alert",
       speed: 1000,
