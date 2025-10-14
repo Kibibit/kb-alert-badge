@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/kibibit/kb-alert-badge/compare/v1.13.0...v1.13.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** update background colors for washing machine ([7e09594](https://github.com/kibibit/kb-alert-badge/commit/7e09594599c3632bb8eca3be9bc0e1e53eb6d607))
+
 # [1.13.0](https://github.com/kibibit/kb-alert-badge/compare/v1.12.0...v1.13.0) (2025-10-14)
 
 
