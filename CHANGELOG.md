@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/kibibit/kb-alert-badge/compare/v1.4.0...v1.4.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** adjust water wave animation timing and z-index properties ([3d1e13a](https://github.com/kibibit/kb-alert-badge/commit/3d1e13ab9ce9b0292451ebdeaecbceb16063ff66))
+
 # [1.4.0](https://github.com/kibibit/kb-alert-badge/compare/v1.3.0...v1.4.0) (2025-10-14)
 
 
