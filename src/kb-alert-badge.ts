@@ -180,6 +180,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     const style: Record<string, string> = {};
     if (color) style["--kb-alert-color"] = color;
     style["--kb-alert-speed"] = `${speed}ms`;
+    // Storm-specific color palette: default to white when no color is set
+    if (animation === "storm") {
+      style["--kb-storm-color"] = color || "#ffffff";
+    }
 
     if (animation === "police") {
       const { right, left } = this._computePoliceColors(color);
@@ -253,27 +257,34 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
   }
 
   private _stormStart(): void {
-    if (this._stormRaf) return; // already running
-    // Resolve canvas in the current render tree
-    this._stormRainCanvas = this.renderRoot.querySelector<HTMLCanvasElement>(".kb-storm-rain") || undefined;
-    if (!this._stormRainCanvas) return;
-    this._stormRainCtx = this._stormRainCanvas.getContext("2d");
-    if (!this._stormRainCtx) return;
-    // Resolve base storm color from editor setting (lightest tone)
-    const baseColor = this._config?.color || "#ff5252";
-    this._stormColor = this._resolveCssColorToRgba(baseColor) || { r: 255, g: 82, b: 82, a: 1 };
+    // Resolve current canvas in the render tree (it may change after editor closes)
+    const canvas = this.renderRoot.querySelector<HTMLCanvasElement>(".kb-storm-rain") || undefined;
+    if (!canvas) return;
+    const canvasChanged = canvas !== this._stormRainCanvas;
+    if (canvasChanged) {
+      this._stormRainCanvas = canvas;
+      this._stormRainCtx = this._stormRainCanvas.getContext("2d");
+    }
+    if (!this._stormRainCtx || !this._stormRainCanvas) return;
+    // Resolve base storm color from editor (default to white when none)
+    const baseColor = this._config?.color || "#ffffff";
+    this._stormColor = this._resolveCssColorToRgba(baseColor) || { r: 255, g: 255, b: 255, a: 1 };
     this._stormSetupCanvasAndDrops();
-    // Resize handler
-    this._stormResizeHandler = () => {
-      this._stormSetupCanvasAndDrops();
-    };
-    window.addEventListener("resize", this._stormResizeHandler);
-    // Tick loop
-    const tick = () => {
-      this._stormUpdate();
+    // Ensure resize handler is attached once
+    if (!this._stormResizeHandler) {
+      this._stormResizeHandler = () => {
+        this._stormSetupCanvasAndDrops();
+      };
+      window.addEventListener("resize", this._stormResizeHandler);
+    }
+    // Ensure RAF loop is running
+    if (!this._stormRaf) {
+      const tick = () => {
+        this._stormUpdate();
+        this._stormRaf = window.requestAnimationFrame(tick);
+      };
       this._stormRaf = window.requestAnimationFrame(tick);
-    };
-    this._stormRaf = window.requestAnimationFrame(tick);
+    }
   }
 
   private _stormStop(): void {
@@ -594,10 +605,10 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       /* storm */
       .badge.active.storm { overflow: hidden; }
       .badge.active.storm {
-        /* derive shade palette from editor color */
-        --kb-storm-flash-strong: var(--kb-alert-color);
-        --kb-storm-flash: color-mix(in oklab, var(--kb-alert-color) 80%, black);
-        --kb-storm-flash-dim: color-mix(in oklab, var(--kb-alert-color) 55%, black);
+        /* derive shade palette from storm base color (falls back to white) */
+        --kb-storm-flash-strong: var(--kb-storm-color, #ffffff);
+        --kb-storm-flash: color-mix(in oklab, var(--kb-storm-color, #ffffff) 80%, black);
+        --kb-storm-flash-dim: color-mix(in oklab, var(--kb-storm-color, #ffffff) 55%, black);
       }
       .badge.active.storm .kb-storm {
         position: absolute;
