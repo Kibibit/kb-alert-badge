@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/kibibit/kb-alert-badge/compare/v1.0.0...v1.1.0) (2025-10-14)
+
+
+### Features
+
+* **label:** add optional label and fix visual editor ([7e62962](https://github.com/kibibit/kb-alert-badge/commit/7e62962758055c29d1f76bcc5ab611a2abdd3600))
+
 # 1.0.0 (2025-10-14)
 
 
