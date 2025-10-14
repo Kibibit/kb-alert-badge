@@ -1,3 +1,10 @@
+## [1.2.7](https://github.com/kibibit/kb-alert-badge/compare/v1.2.6...v1.2.7) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** unify badge color handling for active and inactive states ([fa8eab9](https://github.com/kibibit/kb-alert-badge/commit/fa8eab985b42b31a61b1c3bf455f810d0832ac7f))
+
 ## [1.2.6](https://github.com/kibibit/kb-alert-badge/compare/v1.2.5...v1.2.6) (2025-10-14)
 
 
