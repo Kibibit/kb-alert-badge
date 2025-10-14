@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/kibibit/kb-alert-badge/compare/v1.2.2...v1.2.3) (2025-10-14)
+
+
+### Bug Fixes
+
+* **icon:** make sure off color is same as default badge ([f4b0ecd](https://github.com/kibibit/kb-alert-badge/commit/f4b0ecd189fb04ec9e3c37302050b23f76efce9e))
+
 ## [1.2.2](https://github.com/kibibit/kb-alert-badge/compare/v1.2.1...v1.2.2) (2025-10-14)
 
 
