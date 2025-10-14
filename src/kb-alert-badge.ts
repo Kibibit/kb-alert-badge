@@ -134,10 +134,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       .badge.active ha-state-icon {
         color: var(--kb-alert-color);
       }
-      /* Inactive: align with Mushroom by using secondary text color */
-      .badge:not(.active) ha-state-icon {
-        color: var(--secondary-text-color);
-      }
+      /* Inactive: do not override icon color; let ha-state-icon decide (matches Mushroom) */
       .info {
         display: flex;
         flex-direction: column;
