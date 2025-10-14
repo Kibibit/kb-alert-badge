@@ -222,7 +222,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       .badge.active.water .kb-water-wave {
         position: absolute;
         left: 0;
-        top: -6px; /* crest sits just above surface */
+        top: -4px;
         width: 200%;
         height: 24px;
         overflow: visible;
