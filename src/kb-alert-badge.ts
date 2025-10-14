@@ -29,6 +29,21 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
   @state() private _active = false;
   @state() private _stateDisplay?: string;
 
+  // --- Storm (rain + lightning) runtime state ---
+  private _stormRaf?: number;
+  private _stormRainCanvas?: HTMLCanvasElement;
+  private _stormRainCtx?: CanvasRenderingContext2D | null;
+  private _stormResizeHandler?: () => void;
+  private _stormDrops: Array<{
+    x: number;
+    y: number;
+    width: number;
+    length: number;
+    opacity: number;
+    speedX: number;
+    speedY: number;
+  }> = [];
+
   setConfig(config: KbAlertBadgeConfig): void {
     this._config = {
       animation: "flashing",
@@ -198,6 +213,12 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
               </svg>
             </div>`
           : nothing}
+        ${active && animation === "storm"
+          ? html`<div class="kb-storm" aria-hidden="true">
+              <canvas class="kb-storm-rain"></canvas>
+              <div class="kb-storm-lightning"></div>
+            </div>`
+          : nothing}
         ${icon
           ? html`<ha-state-icon
               .hass=${this.hass}
@@ -216,6 +237,130 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
           : nothing}
       </div>
     `;
+  }
+
+  protected updated(): void {
+    const isStorm = this._config?.animation === "storm";
+    const isActive = this._config?.demo || this._active || !this._config?.entity;
+    const shouldRunStorm = Boolean(isStorm && isActive);
+    if (shouldRunStorm) this._stormStart(); else this._stormStop();
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this._stormStop();
+  }
+
+  private _stormStart(): void {
+    if (this._stormRaf) return; // already running
+    // Resolve canvas in the current render tree
+    this._stormRainCanvas = this.renderRoot.querySelector<HTMLCanvasElement>(".kb-storm-rain") || undefined;
+    if (!this._stormRainCanvas) return;
+    this._stormRainCtx = this._stormRainCanvas.getContext("2d");
+    if (!this._stormRainCtx) return;
+    this._stormSetupCanvasAndDrops();
+    // Resize handler
+    this._stormResizeHandler = () => {
+      this._stormSetupCanvasAndDrops();
+    };
+    window.addEventListener("resize", this._stormResizeHandler);
+    // Tick loop
+    const tick = () => {
+      this._stormUpdate();
+      this._stormRaf = window.requestAnimationFrame(tick);
+    };
+    this._stormRaf = window.requestAnimationFrame(tick);
+  }
+
+  private _stormStop(): void {
+    if (this._stormRaf) {
+      window.cancelAnimationFrame(this._stormRaf);
+      this._stormRaf = undefined;
+    }
+    if (this._stormResizeHandler) {
+      window.removeEventListener("resize", this._stormResizeHandler);
+      this._stormResizeHandler = undefined;
+    }
+    // Clear canvas
+    if (this._stormRainCtx && this._stormRainCanvas) {
+      const ctx = this._stormRainCtx;
+      ctx.clearRect(0, 0, this._stormRainCanvas.width, this._stormRainCanvas.height);
+    }
+  }
+
+  private _stormSetupCanvasAndDrops(): void {
+    if (!this._stormRainCanvas || !this._stormRainCtx) return;
+    const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1));
+    const rect = this._stormRainCanvas.getBoundingClientRect();
+    const wCss = Math.max(1, Math.floor(rect.width));
+    const hCss = Math.max(1, Math.floor(rect.height));
+    this._stormRainCanvas.width = wCss * dpr;
+    this._stormRainCanvas.height = hCss * dpr;
+    const ctx = this._stormRainCtx;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+    // Populate drops based on area, scaled down for small badge
+    const baseCount = 180; // reference density for ~100x36
+    const area = wCss * hCss;
+    const density = Math.min(400, Math.max(30, Math.floor((area / 3600) * (baseCount / 100))));
+    this._stormDrops = [];
+    for (let i = 0; i < density; i++) {
+      this._stormDrops.push(this._stormCreateDrop(wCss, hCss));
+    }
+  }
+
+  private _stormCreateDrop(w: number, h: number) {
+    const random = (min: number, max: number) => min + Math.random() * (max - min);
+    // Windy angle: left-to-right negative X speed, strong Y speed
+    const speedY = random(6, 12);
+    const speedX = random(-2.5, -0.8);
+    return {
+      x: Math.random() * w * 1.3, // allow offscreen spawn
+      y: Math.random() * h,
+      width: random(0.8, 1.2),
+      length: random(2, 5),
+      opacity: random(0.15, 0.35),
+      speedX,
+      speedY,
+    };
+  }
+
+  private _stormUpdate(): void {
+    if (!this._stormRainCtx || !this._stormRainCanvas) return;
+    const ctx = this._stormRainCtx as CanvasRenderingContext2D;
+    const rect = this._stormRainCanvas.getBoundingClientRect();
+    const w = Math.max(1, Math.floor(rect.width));
+    const h = Math.max(1, Math.floor(rect.height));
+    ctx.clearRect(0, 0, w, h);
+    // Move
+    for (let i = 0; i < this._stormDrops.length; i++) {
+      const d = this._stormDrops[i];
+      d.x += d.speedX;
+      d.y += d.speedY;
+      if (d.y > h) {
+        // recycle to top with random x
+        d.x = Math.random() * w * 1.3;
+        d.y = -10;
+      }
+    }
+    // Draw
+    for (let i = 0; i < this._stormDrops.length; i++) {
+      const d = this._stormDrops[i];
+      const startX = d.x;
+      const startY = d.y;
+      const endX = d.x + d.speedX * d.length;
+      const endY = d.y + d.speedY * d.length;
+      const grad = ctx.createLinearGradient(startX, startY, endX, endY);
+      grad.addColorStop(0, "rgba(255,255,255,0)");
+      grad.addColorStop(1, `rgba(255,255,255,${d.opacity.toFixed(3)})`);
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = d.width;
+      ctx.lineCap = "round";
+      ctx.stroke();
+    }
   }
 
   static get styles(): CSSResultGroup {
@@ -447,6 +592,52 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       @keyframes kb-wind {
         0% { transform: translateX(0); }
         100% { transform: translateX(200%); }
+      }
+
+      /* storm */
+      .badge.active.storm { overflow: hidden; }
+      .badge.active.storm .kb-storm {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .badge.active.storm .kb-storm::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35); /* dark ambience between flashes */
+      }
+      .badge.active.storm .kb-storm-rain {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .badge.active.storm .kb-storm-lightning {
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        opacity: 0;
+        animation: kb-lightning 6000ms infinite;
+        mix-blend-mode: screen;
+      }
+      .badge.active.storm ha-state-icon,
+      .badge.active.storm .info {
+        position: relative;
+        z-index: 2; /* above storm overlays */
+      }
+      @keyframes kb-lightning {
+        0%, 8% { opacity: 0; }
+        9.5% { opacity: 0.9; }
+        10% { opacity: 0; }
+        73% { opacity: 0; }
+        75% { opacity: 0.9; }
+        77% { opacity: 0; }
+        80% { opacity: 0.7; }
+        90% { opacity: 0; }
+        100% { opacity: 0; }
       }
     `;
   }
