@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/kibibit/kb-alert-badge/compare/v1.2.4...v1.2.5) (2025-10-14)
+
+
+### Bug Fixes
+
+* **icon:** try fixing default disabled color again ([81cd8ce](https://github.com/kibibit/kb-alert-badge/commit/81cd8ce6c1dc14db7211ff2938a2148da0be07a7))
+
 ## [1.2.4](https://github.com/kibibit/kb-alert-badge/compare/v1.2.3...v1.2.4) (2025-10-14)
 
 
