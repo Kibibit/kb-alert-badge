@@ -7,6 +7,12 @@ type Schema = any[]; // Rely on HA's <ha-form> schema at runtime
 
 const SCHEMA: Schema = [
   {
+    name: "demo",
+    selector: {
+      boolean: {},
+    },
+  },
+  {
     name: "entity",
     selector: {
       entity: {
@@ -88,12 +94,6 @@ const SCHEMA: Schema = [
     name: "speed",
     selector: {
       number: { min: 100, max: 10000, step: 100, mode: "box" },
-    },
-  },
-  {
-    name: "demo",
-    selector: {
-      boolean: {},
     },
   },
 ];
