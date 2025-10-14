@@ -81,6 +81,9 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
              .join(";")}
            role="img"
            aria-label="Alert badge">
+        ${active && animation === "water"
+          ? html`<div class="kb-water" aria-hidden="true"></div>`
+          : nothing}
         ${icon
           ? html`<ha-state-icon
               .hass=${this.hass}
@@ -196,20 +199,40 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
 
       /* water */
-      .badge.active.water::after {
-        content: "";
-        position: absolute;
-        left: 0; right: 0; bottom: 0;
-        height: 0%;
-        background: radial-gradient(ellipse at top, rgba(255,255,255,0.4), transparent),
-                    var(--kb-alert-color);
-        animation: kb-water-rise var(--kb-alert-speed) infinite ease-in-out;
-        z-index: -1;
+      .badge.active.water {
+        overflow: hidden;
       }
-      @keyframes kb-water-rise {
-        0% { height: 0%; }
-        50% { height: 85%; }
-        100% { height: 0%; }
+      .badge.active.water .kb-water {
+        position: absolute;
+        left: -50%;
+        top: 60%;
+        width: 200%;
+        height: 200%;
+        z-index: 0;
+        border-radius: 38%;
+        background:
+          radial-gradient(ellipse at 50% 40%,
+            color-mix(in oklab, var(--kb-alert-color) 35%, white) 0%,
+            transparent 66%),
+          var(--kb-alert-color);
+        transform: rotate(0deg);
+        transform-origin: 50% 50%;
+        animation:
+          kb-water-wave-rotate calc(var(--kb-alert-speed) * 3) linear infinite,
+          kb-water-wave-rise   calc(var(--kb-alert-speed) * 5) ease-out forwards;
+      }
+      .badge.active.water ha-state-icon,
+      .badge.active.water .info {
+        position: relative;
+        z-index: 2;
+      }
+      @keyframes kb-water-wave-rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes kb-water-wave-rise {
+        0% { top: 60%; }
+        100% { top: 8px; }
       }
 
       /* wind */
