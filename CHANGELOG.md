@@ -1,3 +1,10 @@
+## [1.4.6](https://github.com/kibibit/kb-alert-badge/compare/v1.4.5...v1.4.6) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** adjust water wave position to not appear above bottom ([bb8df7a](https://github.com/kibibit/kb-alert-badge/commit/bb8df7ae3b13baa570f9396b477f21fdabd8a6d7))
+
 ## [1.4.5](https://github.com/kibibit/kb-alert-badge/compare/v1.4.4...v1.4.5) (2025-10-14)
 
 
