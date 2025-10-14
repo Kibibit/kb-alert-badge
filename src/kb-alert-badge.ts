@@ -61,6 +61,101 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     }
   }
 
+  private _computePoliceColors(customRightColor?: string): { right: string; left: string } {
+    // Defaults approximate the CodePen styling
+    const defaultRight = "#66d2ff"; // blue side
+    const defaultLeft = "#ff3c2d";  // red side
+    if (!customRightColor) {
+      return { right: defaultRight, left: defaultLeft };
+    }
+    const rgba = this._resolveCssColorToRgba(customRightColor);
+    if (!rgba) {
+      return { right: defaultRight, left: defaultLeft };
+    }
+    const { h, s, l, a } = this._rgbToHsl(rgba.r, rgba.g, rgba.b, rgba.a);
+    const complementaryHue = (h + 180) % 360;
+    const leftRgb = this._hslToRgb(complementaryHue, s, l, a);
+    const rightCss = this._rgbaToCss(rgba.r, rgba.g, rgba.b, rgba.a);
+    const leftCss = this._rgbaToCss(leftRgb.r, leftRgb.g, leftRgb.b, leftRgb.a);
+    return { right: rightCss, left: leftCss };
+  }
+
+  private _resolveCssColorToRgba(input: string): { r: number; g: number; b: number; a: number } | undefined {
+    try {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      if (!context) return undefined;
+      context.fillStyle = input;
+      const normalized = context.fillStyle as string;
+      // normalized is typically in the form "#rrggbb" or "rgba(r,g,b,a)"
+      if (normalized.startsWith("#")) {
+        const hex = normalized.replace("#", "");
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        return { r, g, b, a: 1 };
+      }
+      const rgbaMatch = normalized.match(/rgba?\(([^)]+)\)/i);
+      if (rgbaMatch) {
+        const parts = rgbaMatch[1].split(",").map((p) => p.trim());
+        const r = parseFloat(parts[0]);
+        const g = parseFloat(parts[1]);
+        const b = parseFloat(parts[2]);
+        const a = parts[3] !== undefined ? parseFloat(parts[3]) : 1;
+        return { r, g, b, a: isNaN(a) ? 1 : a };
+      }
+      return undefined;
+    } catch (_e) {
+      return undefined;
+    }
+  }
+
+  private _rgbToHsl(r: number, g: number, b: number, a: number): { h: number; s: number; l: number; a: number } {
+    const rn = r / 255;
+    const gn = g / 255;
+    const bn = b / 255;
+    const max = Math.max(rn, gn, bn);
+    const min = Math.min(rn, gn, bn);
+    const delta = max - min;
+    let hue = 0;
+    if (delta !== 0) {
+      if (max === rn) hue = ((gn - bn) / delta) % 6;
+      else if (max === gn) hue = (bn - rn) / delta + 2;
+      else hue = (rn - gn) / delta + 4;
+      hue *= 60;
+      if (hue < 0) hue += 360;
+    }
+    const lightness = (max + min) / 2;
+    const saturation = delta === 0 ? 0 : delta / (1 - Math.abs(2 * lightness - 1));
+    return { h: hue, s: saturation, l: lightness, a };
+  }
+
+  private _hslToRgb(h: number, s: number, l: number, a: number): { r: number; g: number; b: number; a: number } {
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    const m = l - c / 2;
+    let rn = 0, gn = 0, bn = 0;
+    if (0 <= h && h < 60) { rn = c; gn = x; bn = 0; }
+    else if (60 <= h && h < 120) { rn = x; gn = c; bn = 0; }
+    else if (120 <= h && h < 180) { rn = 0; gn = c; bn = x; }
+    else if (180 <= h && h < 240) { rn = 0; gn = x; bn = c; }
+    else if (240 <= h && h < 300) { rn = x; gn = 0; bn = c; }
+    else { rn = c; gn = 0; bn = x; }
+    const r = Math.round((rn + m) * 255);
+    const g = Math.round((gn + m) * 255);
+    const b = Math.round((bn + m) * 255);
+    return { r, g, b, a };
+  }
+
+  private _rgbaToCss(r: number, g: number, b: number, a: number): string {
+    if (a >= 1) {
+      const toHex = (v: number) => v.toString(16).padStart(2, "0");
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+    const alpha = Math.max(0, Math.min(1, a));
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
   protected render() {
     if (!this._config) return nothing;
     const { icon, label, color, animation = "flashing", speed = 1000 } = this._config;
@@ -69,6 +164,12 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
     const style: Record<string, string> = {};
     if (color) style["--kb-alert-color"] = color;
     style["--kb-alert-speed"] = `${speed}ms`;
+
+    if (animation === "police") {
+      const { right, left } = this._computePoliceColors(color);
+      style["--kb-police-right"] = right;
+      style["--kb-police-left"] = left;
+    }
 
     const entityStateObj = this._config.entity
       ? this.hass?.states[this._config.entity]
@@ -219,11 +320,11 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         inset: 0;
         opacity: 0;
       }
-      /* Blue (right) timing - three quick bursts per cycle */
+      /* Right segment uses provided color (or default blue) */
       .badge.active.police .segment.blue .inner {
         animation: kb-strobe-blue var(--kb-alert-speed) infinite;
       }
-      /* Red (left) is delayed half cycle to alternate with blue */
+      /* Left segment uses complementary color (or default red) */
       .badge.active.police .segment.red .inner {
         animation: kb-strobe-red var(--kb-alert-speed) infinite;
         animation-delay: calc(var(--kb-alert-speed) / 2);
@@ -238,20 +339,20 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       /* Strobe keyframes (based on CodePen sequence 1) */
       @keyframes kb-strobe-blue {
         0%, 25%    { opacity: 0; box-shadow: none; background: transparent; }
-        28%, 50%   { opacity: 1; background: rgba(102,210,255,0.55); box-shadow: 0 0 40px 10px rgba(0,120,255,0.8) inset, 0 0 24px rgba(0,120,255,0.9); }
+        28%, 50%   { opacity: 1; background: color-mix(in oklab, var(--kb-police-right, #66d2ff) 55%, transparent); box-shadow: 0 0 40px 10px color-mix(in oklab, var(--kb-police-right, #66d2ff) 80%, transparent) inset, 0 0 24px color-mix(in oklab, var(--kb-police-right, #66d2ff) 90%, transparent); }
         52%, 55%   { opacity: 0; box-shadow: none; background: transparent; }
-        57%, 69%   { opacity: 1; background: rgba(102,210,255,0.55); box-shadow: 0 0 40px 10px rgba(0,120,255,0.8) inset, 0 0 24px rgba(0,120,255,0.9); }
+        57%, 69%   { opacity: 1; background: color-mix(in oklab, var(--kb-police-right, #66d2ff) 55%, transparent); box-shadow: 0 0 40px 10px color-mix(in oklab, var(--kb-police-right, #66d2ff) 80%, transparent) inset, 0 0 24px color-mix(in oklab, var(--kb-police-right, #66d2ff) 90%, transparent); }
         70%, 71%   { opacity: 0; box-shadow: none; background: transparent; }
-        72%, 75%   { opacity: 1; background: rgba(102,210,255,0.55); box-shadow: 0 0 40px 10px rgba(0,120,255,0.8) inset, 0 0 24px rgba(0,120,255,0.9); }
+        72%, 75%   { opacity: 1; background: color-mix(in oklab, var(--kb-police-right, #66d2ff) 55%, transparent); box-shadow: 0 0 40px 10px color-mix(in oklab, var(--kb-police-right, #66d2ff) 80%, transparent) inset, 0 0 24px color-mix(in oklab, var(--kb-police-right, #66d2ff) 90%, transparent); }
         77%, 100%  { opacity: 0; box-shadow: none; background: transparent; }
       }
       @keyframes kb-strobe-red {
         0%, 25%    { opacity: 0; box-shadow: none; background: transparent; }
-        28%, 50%   { opacity: 1; background: rgba(255,60,45,0.55); box-shadow: 0 0 40px 10px rgba(255,68,68,0.8) inset, 0 0 24px rgba(255,68,68,0.9); }
+        28%, 50%   { opacity: 1; background: color-mix(in oklab, var(--kb-police-left, #ff3c2d) 55%, transparent); box-shadow: 0 0 40px 10px color-mix(in oklab, var(--kb-police-left, #ff3c2d) 80%, transparent) inset, 0 0 24px color-mix(in oklab, var(--kb-police-left, #ff3c2d) 90%, transparent); }
         52%, 55%   { opacity: 0; box-shadow: none; background: transparent; }
-        57%, 69%   { opacity: 1; background: rgba(255,60,45,0.55); box-shadow: 0 0 40px 10px rgba(255,68,68,0.8) inset, 0 0 24px rgba(255,68,68,0.9); }
+        57%, 69%   { opacity: 1; background: color-mix(in oklab, var(--kb-police-left, #ff3c2d) 55%, transparent); box-shadow: 0 0 40px 10px color-mix(in oklab, var(--kb-police-left, #ff3c2d) 80%, transparent) inset, 0 0 24px color-mix(in oklab, var(--kb-police-left, #ff3c2d) 90%, transparent); }
         70%, 71%   { opacity: 0; box-shadow: none; background: transparent; }
-        72%, 75%   { opacity: 1; background: rgba(255,60,45,0.55); box-shadow: 0 0 40px 10px rgba(255,68,68,0.8) inset, 0 0 24px rgba(255,68,68,0.9); }
+        72%, 75%   { opacity: 1; background: color-mix(in oklab, var(--kb-police-left, #ff3c2d) 55%, transparent); box-shadow: 0 0 40px 10px color-mix(in oklab, var(--kb-police-left, #ff3c2d) 80%, transparent) inset, 0 0 24px color-mix(in oklab, var(--kb-police-left, #ff3c2d) 90%, transparent); }
         77%, 100%  { opacity: 0; box-shadow: none; background: transparent; }
       }
 
