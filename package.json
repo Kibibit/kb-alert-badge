@@ -1,6 +1,6 @@
 {
   "name": "@kibibit/kb-alert-badge",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "Animated Home Assistant Lovelace badge for critical alerts (smoke, water, alarms).",
   "type": "module",
   "main": "dist/kb-alert-badge.js",

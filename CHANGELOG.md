@@ -1,3 +1,10 @@
+## [1.2.10](https://github.com/kibibit/kb-alert-badge/compare/v1.2.9...v1.2.10) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** update color handling in badge editor and adjust z-index properties ([e4d0cbf](https://github.com/kibibit/kb-alert-badge/commit/e4d0cbff78e3175934c3be34fc3675368857274a))
+
 ## [1.2.9](https://github.com/kibibit/kb-alert-badge/compare/v1.2.8...v1.2.9) (2025-10-14)
 
 
