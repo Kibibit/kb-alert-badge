@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/kibibit/kb-alert-badge/compare/v1.4.2...v1.4.3) (2025-10-14)
+
+
+### Bug Fixes
+
+* **badge:** adjust water wave positions for improved realism ([5abf886](https://github.com/kibibit/kb-alert-badge/commit/5abf88693dec6490ff09aedc9c2fc773293d7a8a))
+
 ## [1.4.2](https://github.com/kibibit/kb-alert-badge/compare/v1.4.1...v1.4.2) (2025-10-14)
 
 
