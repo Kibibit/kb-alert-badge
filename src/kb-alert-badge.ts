@@ -679,7 +679,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         border-radius: 50%;
         background: #434343; /* outer ring */
         box-shadow: inset 0 0 0 calc(var(--kb-wash-size) * 0.08) #434343,
-                    inset 0 0 0 calc(var(--kb-wash-size) * 0.14) #2f2f2f;
+                    inset 0 0 0 calc(var(--kb-wash-size) * 0.14) grey;
         transform-style: preserve-3d;
         perspective: 150px;
       }
@@ -714,7 +714,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         /* radius equals half of inner glass */
         width: calc(var(--mdc-icon-size, 18px) * 0.31);
         height: var(--arm-h);
-        background: #331e27;
+        background: white;
         border-radius: 25%;
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
@@ -730,7 +730,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         top: 0;
         width: 100%;
         height: 100%;
-        background: #331e27;
+        background: white;
         border-radius: 25%;
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
