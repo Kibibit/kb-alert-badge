@@ -113,12 +113,23 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
           --ha-badge-border-radius,
           calc(var(--ha-badge-size, 36px) / 2)
         );
-        background: var(--ha-card-background, var(--card-background-color));
-        border: 1px solid var(--ha-card-border-color, var(--divider-color));
+        background: var(
+          --ha-card-background,
+          var(--card-background-color, white)
+        );
+        -webkit-backdrop-filter: var(--ha-card-backdrop-filter, none);
+        backdrop-filter: var(--ha-card-backdrop-filter, none);
+        border-width: var(--ha-card-border-width, 1px);
+        box-shadow: var(--ha-card-box-shadow, none);
+        border-style: solid;
+        border-color: var(
+          --ha-card-border-color,
+          var(--divider-color, #e0e0e0)
+        );
         overflow: hidden;
       }
       .badge ha-state-icon {
-        --mdc-icon-size: 20px;
+        --mdc-icon-size: 18px;
       }
       .badge.active ha-state-icon {
         color: var(--kb-alert-color);
@@ -131,28 +142,31 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        padding-right: 4px;
       }
       .label {
         font-size: 10px;
         font-weight: 500;
         color: var(--secondary-text-color);
         line-height: 10px;
+        letter-spacing: 0.1px;
       }
       .content {
         font-size: 12px;
         font-weight: 500;
         color: var(--primary-text-color);
         line-height: 16px;
+        letter-spacing: 0.1px;
       }
 
       /* flashing */
       .badge.active.flashing {
         animation: kb-flash var(--kb-alert-speed) infinite ease-in-out;
-        box-shadow: 0 0 0 0 rgba(255,0,0,0.4);
+        box-shadow: 0 0 0 0 color-mix(in oklab, var(--kb-alert-color) 40%, transparent);
       }
       @keyframes kb-flash {
-        0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4); }
-        50% { box-shadow: 0 0 0 8px rgba(255, 0, 0, 0.0); }
+        0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--kb-alert-color) 40%, transparent); }
+        50% { box-shadow: 0 0 0 8px transparent; }
       }
 
       /* police */
