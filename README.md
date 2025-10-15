@@ -20,6 +20,7 @@
 ---
 
 ## What is KB Alert Badge?
+https://github.com/user-attachments/assets/6bc51097-1c1e-45b2-a7e2-52cb6451e6ba
 
 KB Alert Badge is a custom [Home Assistant](https://www.home-assistant.io/) Dashboard badge that animates to highlight critical or time-sensitive conditions.
 
