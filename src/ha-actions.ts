@@ -1,5 +1,5 @@
-import type { AttributePart } from "lit";
-import { directive, Directive, DirectiveParameters, noChange } from "lit/directive.js";
+import { noChange } from "lit";
+import { AttributePart, directive, Directive, DirectiveParameters } from "lit/directive.js";
 
 // Minimal Home Assistant-like helpers for actions
 
