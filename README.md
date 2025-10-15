@@ -11,6 +11,9 @@
   <img src="https://img.shields.io/github/downloads/kibibit/kb-alert-badge/total?style=for-the-badge" alt="Downloads" />
   <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/📦🚀-semantic--release-e10079.svg?style=for-the-badge" alt="semantic-release" /></a>
   <img src="https://img.shields.io/badge/license-MIT-informational?style=for-the-badge" alt="License: MIT" />
+  <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+  <a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-0-orange.svg?style=for-the-badge" alt="All Contributors" /></a>
+  <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 
 <p align="center">
@@ -124,6 +127,23 @@ A visual editor is provided with controls for entity, animation, color, icon, an
 - Washing machine animation based on [CodePen by qxuken](https://codepen.io/qxuken/pen/QWOapeW).
 - Storm animation based on [CodePen by mephysto](https://codepen.io/mephysto/pen/pdyPVe).
 - Police animation based on [CodePen by drew_mc](https://codepen.io/drew_mc/pen/EVXvaJ).
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+  </tr>
+</table>
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
 
 ## Contributing
 Contributions are welcome! Please open an issue or pull request. This project uses Conventional Commits and `semantic-release`.
