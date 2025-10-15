@@ -483,6 +483,8 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
         );
         overflow: hidden;
       }
+      /* Show pointer when interactable */
+      [role="button"] { cursor: pointer; }
       .badge ha-state-icon {
         --mdc-icon-size: 18px;
         color: var(--badge-color);
