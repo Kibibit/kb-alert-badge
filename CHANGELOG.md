@@ -1,3 +1,15 @@
+# [1.16.0](https://github.com/kibibit/kb-alert-badge/compare/v1.15.0...v1.16.0) (2025-10-15)
+
+
+### Bug Fixes
+
+* **actions:** fix imports ([a716629](https://github.com/kibibit/kb-alert-badge/commit/a716629fce9d7d17df9ae74254b4e79c7b12eadb))
+
+
+### Features
+
+* **actions:** action handling for tap, hold, and double tap ([a864eab](https://github.com/kibibit/kb-alert-badge/commit/a864eabc8fe1f99c697f03602823948538b61663))
+
 # [1.15.0](https://github.com/kibibit/kb-alert-badge/compare/v1.14.3...v1.15.0) (2025-10-15)
 
 
