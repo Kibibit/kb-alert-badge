@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/kibibit/kb-alert-badge/compare/v1.14.3...v1.15.0) (2025-10-15)
+
+
+### Features
+
+* **editor:** mimic default badge sections ([b55372c](https://github.com/kibibit/kb-alert-badge/commit/b55372c1430d756fc47495b9e314961f45e501c0))
+
 ## [1.14.3](https://github.com/kibibit/kb-alert-badge/compare/v1.14.2...v1.14.3) (2025-10-14)
 
 
