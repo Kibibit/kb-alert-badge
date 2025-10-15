@@ -5,12 +5,10 @@ import type { KbAlertBadgeConfig } from "./kb-alert-badge-config";
 
 type Schema = any[]; // Rely on HA's <ha-form> schema at runtime
 
-const SCHEMA: Schema = [
+const BASE_SCHEMA: Schema = [
   {
     name: "demo",
-    selector: {
-      boolean: {},
-    },
+    selector: { boolean: {} },
   },
   {
     name: "entity",
@@ -42,59 +40,49 @@ const SCHEMA: Schema = [
     },
   },
   {
-    name: "color",
-    selector: {
-      text: {},
-    },
-  },
-  {
-    name: "label",
-    selector: {
-      text: {},
-    },
-  },
-  {
-    name: "icon",
-    selector: {
-      icon: {},
-    },
-  },
-  // Display toggles
-  { name: "show_icon", selector: { boolean: {} } },
-  { name: "show_name", selector: { boolean: {} } },
-  { name: "show_state", selector: { boolean: {} } },
-  // State content selection
-  {
-    name: "state_content",
-    selector: {
-      select: {
-        options: [
-          { value: "state", label: "State" },
-          { value: "name", label: "Name" },
-          { value: "last_changed", label: "Last changed" },
-          { value: "last_updated", label: "Last updated" },
-          { value: "attribute", label: "Attribute" },
-          { value: "text", label: "Text" },
-        ],
-        mode: "dropdown",
-      },
-    },
-  },
-  {
-    name: "state_attribute",
-    selector: { text: {} },
-    conditions: [{ name: "state_content", value: "attribute" }],
-  },
-  {
-    name: "state_text",
-    selector: { text: {} },
-    conditions: [{ name: "state_content", value: "text" }],
-  },
-  {
     name: "speed",
     selector: {
       number: { min: 100, max: 10000, step: 100, mode: "box" },
     },
+  },
+  {
+    // Content group similar to HA default badge editor
+    name: "content",
+    type: "expandable",
+    flatten: true,
+    icon: "mdi:text-short",
+    schema: [
+      { name: "label", selector: { text: {} } },
+      { name: "color", selector: { text: {} } },
+      { name: "icon", selector: { icon: {} }, context: { icon_entity: "entity" } },
+      {
+        type: "grid",
+        name: "displayed_elements",
+        schema: [
+          { name: "show_name", selector: { boolean: {} } },
+          { name: "show_state", selector: { boolean: {} } },
+          { name: "show_icon", selector: { boolean: {} } },
+        ],
+      },
+      {
+        name: "state_content",
+        selector: {
+          select: {
+            options: [
+              { value: "state", label: "State" },
+              { value: "name", label: "Name" },
+              { value: "last_changed", label: "Last changed" },
+              { value: "last_updated", label: "Last updated" },
+              { value: "attribute", label: "Attribute" },
+              { value: "text", label: "Text" },
+            ],
+            mode: "dropdown",
+          },
+        },
+      },
+      { name: "state_attribute", selector: { text: {} } },
+      { name: "state_text", selector: { text: {} } },
+    ],
   },
 ];
 
@@ -110,10 +98,16 @@ export class KbAlertBadgeEditor extends LitElement {
   protected render() {
     if (!this.hass || !this._config) return nothing;
     const selected = this._config.state_content;
-    const schema = SCHEMA.filter((s: any) => {
-      if (s.name === "state_attribute") return selected === "attribute";
-      if (s.name === "state_text") return selected === "text";
-      return true;
+    // Compute nested schema so optional state sub-fields render like HA default
+    const schema = BASE_SCHEMA.map((s: any) => {
+      if (s.name !== "content") return s;
+      const content = { ...s };
+      content.schema = s.schema.filter((c: any) => {
+        if (c.name === "state_attribute") return selected === "attribute";
+        if (c.name === "state_text") return selected === "text";
+        return true;
+      });
+      return content;
     });
     return html`
       <ha-form
@@ -132,12 +126,18 @@ export class KbAlertBadgeEditor extends LitElement {
         return "Entity";
       case "animation":
         return "Animation";
+      case "speed":
+        return "Speed (ms)";
+      case "content":
+        return "Content";
       case "color":
         return "Color";
       case "icon":
         return "Icon";
       case "label":
-        return "Label";
+        return "Name";
+      case "displayed_elements":
+        return "Displayed elements";
       case "show_icon":
         return "Show icon";
       case "show_name":
@@ -150,8 +150,6 @@ export class KbAlertBadgeEditor extends LitElement {
         return "Attribute name";
       case "state_text":
         return "Text";
-      case "speed":
-        return "Speed (ms)";
       case "demo":
         return "Preview animation (demo)";
       default:
