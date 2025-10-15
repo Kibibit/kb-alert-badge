@@ -75,6 +75,38 @@ speed: 900
 - `icon`: MDI icon (e.g. `mdi:smoke-detector`) or template
 - `speed`: Animation speed in milliseconds
 
+### Color details
+- **General**: When active, the badge icon color is driven by `--kb-alert-color` (your `color`). `speed` maps to `--kb-alert-speed`.
+- **flashing**: Uses `color` for the pulse background and outer glow; text becomes white for contrast.
+- **police**: Right side uses your `color`; left side auto-uses its complementary hue. If `color` is not set, defaults are blue/right and red/left.
+- **water**: Both wave layers use your `color` (the back wave is a darker mix), rendered under the content.
+- **storm**: Uses your `color` as the base lightning/rain highlight color; lighter/darker flashes are derived automatically.
+- **shake**: Only motion is applied; `color` just colors the icon.
+- **washing-machine**: Spinner artwork does not use `color`; only `speed` influences door/rotation.
+
+#### Advanced customization (CSS variables)
+If your setup allows styling custom elements (e.g., via card-mod), you can override the CSS variables used by the badge:
+- `--kb-alert-color`: base alert color
+- `--kb-alert-speed`: animation speed
+- `--kb-police-right` / `--kb-police-left`: police side colors (override the auto-computed/complementary pair)
+- `--kb-storm-color`: base storm flash/rain highlight color
+
+Example (with card-mod):
+
+```yaml
+type: custom:kb-alert-badge
+entity: binary_sensor.alarm
+animation: police
+card_mod:
+  style: |
+    kb-alert-badge {
+      --kb-alert-color: #00aaff;
+      --kb-police-right: #00aaff;  # force right
+      --kb-police-left: #ff0033;   # force left
+      --kb-alert-speed: 800ms;
+    }
+```
+
 ### Editor
 A visual editor is provided with controls for entity, animation, color, icon, and speed.
 
