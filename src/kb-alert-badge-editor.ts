@@ -57,11 +57,11 @@ const BASE_SCHEMA: Schema = [
       { name: "icon", selector: { icon: {} }, context: { icon_entity: "entity" } },
       {
         type: "grid",
-        name: "displayed_elements",
+        name: "",
         schema: [
-          { name: "show_name", selector: { boolean: {} } },
-          { name: "show_state", selector: { boolean: {} } },
-          { name: "show_icon", selector: { boolean: {} } },
+          { name: "show_name", selector: { boolean: {} }, default: true },
+          { name: "show_state", selector: { boolean: {} }, default: true },
+          { name: "show_icon", selector: { boolean: {} }, default: true },
         ],
       },
       {
