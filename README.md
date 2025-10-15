@@ -24,7 +24,7 @@
 KB Alert Badge is a custom [Home Assistant](https://www.home-assistant.io/) Dashboard badge that animates to highlight critical or time-sensitive conditions.
 
 - Type: `custom:kb-alert-badge`
-- Supported entities: `binary_sensor`, `sensor`, `alarm_control_panel`, `switch`
+- Works with any entity
 - Activation: when state indicates an alert (e.g. "on", "alarm", or a problem state)
 - Minimum Home Assistant version: 2024.12
 
