@@ -23,9 +23,9 @@ export type KbAlertBadgeConfig = {
   state_attribute?: string;
   // When state_content === "text", render this free text
   state_text?: string;
-  tap_action?: any;
-  hold_action?: any;
-  double_tap_action?: any;
+  tap_action?: { action?: string; [key: string]: any };
+  hold_action?: { action?: string; [key: string]: any };
+  double_tap_action?: { action?: string; [key: string]: any };
 };
 
 

@@ -4,6 +4,7 @@ import type { HomeAssistant, LovelaceBadge } from "./ha-types";
 import { subscribeRenderTemplate } from "./ha-types";
 import type { KbAlertBadgeConfig } from "./kb-alert-badge-config";
 import { version } from "../package.json";
+import { actionHandler, type ActionHandlerEvent, handleAction, hasAction } from "./ha-actions";
 
 type AnimationMode = NonNullable<KbAlertBadgeConfig["animation"]>;
 
@@ -53,6 +54,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
   private _stormColor?: { r: number; g: number; b: number; a: number };
 
   setConfig(config: KbAlertBadgeConfig): void {
+    const defaultTap = config.entity ? { action: "more-info" } : { action: "none" };
     this._config = {
       animation: "flashing",
       speed: 1000,
@@ -60,6 +62,7 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       show_name: true,
       show_state: true,
       state_content: "state",
+      tap_action: defaultTap,
       ...config,
     };
   }
@@ -239,13 +242,21 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
       }
     }
 
+    const hasAnyAction = !this._config?.tap_action || hasAction(this._config.tap_action) || hasAction(this._config.hold_action) || hasAction(this._config.double_tap_action);
     return html`
       <div class=${`badge ${active ? `active ${animation}` : animation === "washing-machine" ? animation : ""}`}
            style=${Object.entries(style)
              .map(([k, v]) => `${k}: ${v}`)
              .join(";")}
-           role="img"
-           aria-label="Alert badge">
+           role=${hasAnyAction ? "button" : "img"}
+           tabindex=${hasAnyAction ? 0 : -1}
+           aria-label="Alert badge"
+           @action=${this._handleAction}
+           .actionHandler=${actionHandler({
+             hasHold: hasAction(this._config?.hold_action),
+             hasDoubleClick: hasAction(this._config?.double_tap_action),
+           })}
+      >
         ${active && animation === "police"
           ? html`<div class="kb-police" aria-hidden="true">
               <div class="segment red"><div class="inner"></div></div>
@@ -289,6 +300,11 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
           : nothing}
       </div>
     `;
+  }
+
+  private _handleAction(ev: ActionHandlerEvent) {
+    if (!this.hass || !this._config) return;
+    handleAction(this, this.hass, this._config, ev.detail.action);
   }
 
   protected updated(): void {

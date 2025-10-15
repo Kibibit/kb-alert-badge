@@ -41,6 +41,8 @@ export interface HomeAssistant {
   user?: { name: string };
   // Optional methods available in HA runtime
   formatEntityState?: (stateObj: any, state?: string) => string;
+  // Fire dialog: more-info (used by default tap)
+  // This is provided by HA at runtime and used through hass-action event listeners
 }
 
 

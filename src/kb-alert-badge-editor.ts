@@ -84,6 +84,31 @@ const BASE_SCHEMA: Schema = [
       { name: "state_text", selector: { text: {} } },
     ],
   },
+  {
+    name: "interactions",
+    type: "expandable",
+    flatten: true,
+    icon: "mdi:gesture-tap",
+    schema: [
+      {
+        name: "tap_action",
+        selector: {
+          ui_action: {
+            default_action: "more-info",
+          },
+        },
+      },
+      {
+        name: "",
+        type: "optional_actions",
+        flatten: true,
+        schema: (["hold_action", "double_tap_action"] as const).map((action) => ({
+          name: action,
+          selector: { ui_action: { default_action: "none" as const } },
+        })),
+      },
+    ],
+  },
 ];
 
 @customElement("kb-alert-badge-editor")
