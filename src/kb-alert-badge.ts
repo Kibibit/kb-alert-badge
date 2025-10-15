@@ -18,17 +18,15 @@ export class KbAlertBadge extends LitElement implements LovelaceBadge {
   public static async getStubConfig(): Promise<KbAlertBadgeConfig> {
     return {
       type: "custom:kb-alert-badge",
-      // No default entity so the preview can render standalone
+      // Use an always-present entity for preview in most HA installs
+      entity: "sun.sun",
       animation: "storm",
-      color: "#04A9F4",
-      icon: "mdi:alarm-light",
-      label: "Alert",
+      demo: true,
       speed: 1000,
       show_icon: true,
       show_name: true,
       show_state: true,
-      state_content: "text",
-      state_text: "Active",
+      state_content: "state",
     };
   }
 
