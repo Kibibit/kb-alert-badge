@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/kibibit/kb-alert-badge/compare/v1.16.0...v1.17.0) (2025-10-15)
+
+
+### Features
+
+* **kb-alert-badge:** update stub config for better preview with default entity ([ef264f2](https://github.com/kibibit/kb-alert-badge/commit/ef264f2b879679ba41cc2a7b0dfeb41db050a0ca))
+
 # [1.16.0](https://github.com/kibibit/kb-alert-badge/compare/v1.15.0...v1.16.0) (2025-10-15)
 
 
