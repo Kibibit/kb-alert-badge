@@ -1,3 +1,10 @@
+## [1.17.1](https://github.com/kibibit/kb-alert-badge/compare/v1.17.0...v1.17.1) (2025-10-15)
+
+
+### Bug Fixes
+
+* **kb-alert-badge:** include default values for visibility options ([5c64fc5](https://github.com/kibibit/kb-alert-badge/commit/5c64fc5b430e5bdb611f9aeb83530b286dca0bf3))
+
 # [1.17.0](https://github.com/kibibit/kb-alert-badge/compare/v1.16.0...v1.17.0) (2025-10-15)
 
 
