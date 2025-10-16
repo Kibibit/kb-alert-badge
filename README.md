@@ -6,8 +6,12 @@
 </p>
 
 <p align="center">
+    <a href="https://github.com/kibibit/kb-alert-badge/releases"><img src="https://img.shields.io/github/v/release/kibibit/kb-alert-badge?style=for-the-badge" alt="Release" /></a>
+    <hr>
+</p>
+
+<p align="center">
   <a href="https://github.com/hacs/integration"><img src="https://img.shields.io/badge/hacs-custom-orange.svg?style=for-the-badge" alt="HACS" /></a>
-  <a href="https://github.com/kibibit/kb-alert-badge/releases"><img src="https://img.shields.io/github/v/release/kibibit/kb-alert-badge?style=for-the-badge" alt="Release" /></a>
   <img src="https://img.shields.io/github/downloads/kibibit/kb-alert-badge/total?style=for-the-badge" alt="Downloads" />
   <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/📦🚀-semantic--release-e10079.svg?style=for-the-badge" alt="semantic-release" /></a>
   <img src="https://img.shields.io/badge/license-MIT-informational?style=for-the-badge" alt="License: MIT" />
