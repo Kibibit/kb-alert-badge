@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/kibibit/kb-alert-badge/compare/v1.17.1...v1.18.0) (2025-10-16)
+
+
+### Features
+
+* **release:** create new release after hacs validation ([a791d37](https://github.com/kibibit/kb-alert-badge/commit/a791d374fc4c9dcae49e4de5288f1632eb629818))
+
 ## [1.17.1](https://github.com/kibibit/kb-alert-badge/compare/v1.17.0...v1.17.1) (2025-10-15)
 
 
